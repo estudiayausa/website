@@ -1,137 +1,111 @@
-document.addEventListener('DOMContentLoaded', function() {
-    initializeComponents();
-    checkAuthentication();
-    loadFeaturedCourses();
-    loadCategories();
-    initializeCarousels();
-    initializeNewsletter();
-});
+// Importa la configuración
+import CONFIG from './config.js';
+// Importa la clase API desde su propio archivo para evitar duplicados.
+import { API } from './api.js';
+// Importa los datos de prueba
+import { mockCourses, mockCategoryCounts } from './mock-data.js';
 
-function initializeComponents() {
-    // Mobile menu toggle
-    const mobileMenuToggle = document.querySelector('.mobile-menu-toggle');
-    const sidebar = document.getElementById('sidebar');
-    
-    if (mobileMenuToggle && sidebar) {
-        mobileMenuToggle.addEventListener('click', function() {
-            sidebar.classList.toggle('active');
-        });
-    }
-    
-    // Search functionality
-    const searchButton = document.getElementById('searchButton');
-    const searchInput = document.querySelector('.hero-search input');
-    
-    searchButton.addEventListener('click', performSearch);
-    searchInput.addEventListener('keypress', function(e) {
-        if (e.key === 'Enter') {
-            performSearch();
-        }
-    });
-    
-    // Category cards
-    const categoryCards = document.querySelectorAll('.category-card');
-    categoryCards.forEach(card => {
-        card.addEventListener('click', function() {
-            const category = this.dataset.category;
-            window.location.href = `#catalogo?category=${category}`;
-        });
-    });
-}
-
-function checkAuthentication() {
-    const user = localStorage.getItem(CONFIG.STORAGE_KEYS.USER);
-    
-    if (user) {
-        const userData = JSON.parse(user);
-        updateUIForAuthenticatedUser(userData);
-    } else {
-        updateUIForAnonymousUser();
-    }
-}
-
-function updateUIForAuthenticatedUser(userData) {
-    const authButtons = document.querySelector('.auth-buttons');
-    if (authButtons) {
-        authButtons.innerHTML = `
-            <a href="#profile" class="btn btn-outline">Perfil</a>
-            <a href="#logout" class="btn btn-primary">Cerrar sesión</a>
-        `;
-    }
-}
-
-function updateUIForAnonymousUser() {
-    const authButtons = document.querySelector('.auth-buttons');
-    if (authButtons) {
-        authButtons.innerHTML = `
-            <a href="#login" class="btn btn-outline">Iniciar sesión</a>
-            <a href="#register" class="btn btn-primary">Registrarse</a>
-        `;
-    }
-}
-
+// Función principal para cargar cursos destacados
 async function loadFeaturedCourses() {
+    console.log('Cargando cursos destacados...');
     const coursesContainer = document.getElementById('courses-container');
     
+    if (!coursesContainer) {
+        console.error('No se encontró el contenedor de cursos');
+        return;
+    }
+
+    // Si estamos usando datos de prueba, cárgalos y sal de la función.
+    if (CONFIG.USE_MOCK_DATA) {
+        console.log('Usando datos de prueba (mock data) para los cursos.');
+        coursesContainer.innerHTML = mockCourses.map(course => createCourseCard(course)).join('');
+        console.log('Cursos cargados desde mock data:', mockCourses.length);
+        return;
+    }
+    
     try {
-        const response = await new API().getCourses({ limit: 6 });
-        const courses = response.courses || [];
-        
-        if (courses.length === 0) {
-            coursesContainer.innerHTML = '<p>No se encontraron cursos en este momento.</p>';
-            return;
+        // Usamos el parámetro 'sort' para traer los más populares, como indica la API.
+        const courses = await new API().getCourses({ limit: 6, sort: '-popularity' });
+        console.log('Respuesta de la API (cursos destacados):', courses);
+
+        if (courses && courses.length > 0) {
+            displayCourses(courses, 'Cursos Destacados');
+            console.log('Cursos cargados desde API:', courses.length);
+        } else {
+            displayCourses([], 'Cursos Destacados');
         }
-        
-        coursesContainer.innerHTML = courses.map(course => createCourseCard(course)).join('');
-        
     } catch (error) {
-        console.error('Error loading courses:', error);
-        coursesContainer.innerHTML = '<p>Error al cargar los cursos. Por favor, inténtalo de nuevo más tarde.</p>';
-    }
-}
-
-async function loadCategories() {
-    const categoryCards = document.querySelectorAll('.category-card');
-    
-    for (const card of categoryCards) {
-        const category = card.dataset.category;
-        const courseCountElement = card.querySelector('.course-count');
-        
-        try {
-            const response = await new API().getCoursesByCategory(category);
-            courseCountElement.textContent = `${response.courses.length} cursos`;
-        } catch (error) {
-            console.error(`Error loading courses for category ${category}:`, error);
-            courseCountElement.textContent = 'Error al cargar';
+        console.error('Error al cargar cursos destacados desde API:', error);
+        let userMessage = 'Hubo un problema al conectar con el servidor. Por favor, inténtalo de nuevo más tarde.';
+        if (error.message.includes('401')) {
+            userMessage = 'El acceso a la API no está autorizado. Por favor, verifica que el token de API sea válido y no haya expirado.';
         }
+        coursesContainer.innerHTML = `
+            <div class="api-error-message" style="text-align: center; padding: 2rem; width: 100%;">
+                <h3>No se pudieron cargar los cursos</h3>
+                <p>${userMessage}</p>
+                <p><small>Detalle para el desarrollador: ${error.message}</small></p>
+            </div>
+        `;
     }
 }
 
+// Nueva función reutilizable para mostrar cursos en el contenedor
+function displayCourses(courses, title) {
+    const coursesContainer = document.getElementById('courses-container');
+    const sectionTitle = document.querySelector('#cursos .section-title');
+
+    if (!coursesContainer || !sectionTitle) {
+        console.error('No se encontró el contenedor de cursos o el título de la sección.');
+        return;
+    }
+
+    sectionTitle.textContent = title;
+
+    if (courses && courses.length > 0) {
+        coursesContainer.innerHTML = courses.map(course => createCourseCard(course)).join('');
+    } else {
+        coursesContainer.innerHTML = `
+            <p style="text-align: center; width: 100%;">No se encontraron cursos. Intenta con otra búsqueda o explora nuestras categorías.</p>
+        `;
+    }
+}
+
+// Función para crear tarjetas de curso
 function createCourseCard(course) {
-    const affiliateLink = `https://tutellus.com/curso/${course.id}?affiliate=${CONFIG.AFFILIATE_ID}`;
-    
+    // CORRECCIÓN: Se ajustan las propiedades a la estructura real de la API de Tutellus.
+    // Se añaden fallbacks más robustos para evitar errores si un dato no viene.
+    // Para probar en GitHub Pages, volvemos a enlazar a nuestra página de detalle local.
+    const courseLink = `course.html?code=${course.code}`; 
+    const instructorName = course.teacher?.name || 'Instructor no disponible';
+    // La API no proporciona avatar del instructor, usamos un placeholder.
+    const instructorAvatar = 'https://via.placeholder.com/30x30';
+    const rating = course.stats?.reviews_avg || 0;
+    const studentsCount = course.stats?.students || 0;
+    // Usamos el precio en USD como predeterminado, o EUR si no está disponible.
+    const price = course.price?.USD ?? course.price?.EUR ?? 0;
+
     return `
         <div class="course-card">
-            <div class="course-image" style="background-image: url('${course.thumbnail || 'https://via.placeholder.com/300x180'}')"></div>
+            <div class="course-image" style="background-image: url('${course.image_url || 'https://via.placeholder.com/300x180'}')"></div>
             <div class="course-content">
-                <h3 class="course-title">${course.title || 'Título del curso'}</h3>
+                <h3 class="course-title">${course.name || 'Título del curso'}</h3>
                 <div class="course-instructor">
-                    <img src="${course.instructor?.avatar || 'https://via.placeholder.com/30x30'}" alt="${course.instructor?.name || 'Instructor'}" class="instructor-avatar">
-                    <span>${course.instructor?.name || 'Nombre del instructor'}</span>
+                    <img src="${instructorAvatar}" alt="${instructorName}" class="instructor-avatar">
+                    <span>${instructorName}</span>
                 </div>
                 <div class="rating">
-                    <div class="stars">
-                        ${renderStars(course.rating || 0)}
-                    </div>
-                    <span>${course.rating || 0} (${course.students || 0})</span>
+                    <div class="stars">${renderStars(rating)}</div>
+                    <span>${rating.toFixed(1)} (${studentsCount})</span>
                 </div>
-                <div class="course-price">${formatPrice(course.price || 0)}</div>
-                <a href="${affiliateLink}" class="btn btn-primary" target="_blank">Ver curso</a>
+                <div class="course-price">${formatPrice(price)}</div>
+                <a href="${courseLink}" class="btn btn-primary">Ver curso</a>
             </div>
         </div>
     `;
 }
 
+// Función para renderizar estrellas de calificación
 function renderStars(rating) {
     let stars = '';
     for (let i = 1; i <= 5; i++) {
@@ -146,83 +120,151 @@ function renderStars(rating) {
     return stars;
 }
 
+// Función para formatear precios
 function formatPrice(price) {
     return price === 0 ? 'Gratis' : `$${price}`;
 }
 
-function initializeCarousels() {
-    const testimonialContainer = document.querySelector('.testimonial-container');
-    const testimonialCards = document.querySelectorAll('.testimonial-card');
-    const prevBtn = document.querySelector('.testimonial-carousel .carousel-btn.prev');
-    const nextBtn = document.querySelector('.testimonial-carousel .carousel-btn.next');
-    let currentIndex = 0;
+// Función para cargar categorías
+async function loadCategories() {
+    console.log('Cargando categorías...');
+    const categoryCards = document.querySelectorAll('.category-card');
+    
+    for (const card of categoryCards) {
+        const category = card.dataset.category;
+        const courseCountElement = card.querySelector('.course-count');
+        
+        if (!courseCountElement) continue;
+        
+        // Si usamos datos de prueba, los usamos y continuamos al siguiente.
+        if (CONFIG.USE_MOCK_DATA) {
+            const mockCount = mockCategoryCounts[category] || 0;
+            courseCountElement.textContent = `${mockCount} ${mockCount === 1 ? 'curso' : 'cursos'}`;
+            console.log(`Usando datos de prueba para categoría ${category}: ${mockCount} cursos.`);
+            continue;
+        }
 
-    function updateTestimonialCarousel() {
-        testimonialContainer.style.transform = `translateX(-${currentIndex * 100}%)`;
+        try {
+            // Usamos la API centralizada
+            const response = await new API().getCoursesByCategory(category);
+            console.log(`Respuesta de la API (categoría ${category}):`, response);
+            // CORRECCIÓN: La API devuelve un array directamente.
+            const courseCount = response?.length || 0;
+            courseCountElement.textContent = `${courseCount} ${courseCount === 1 ? 'curso' : 'cursos'}`;
+        } catch (error) {
+            console.error(`Error cargando categoría ${category}:`, error);
+            if (error.message.includes('401')) {
+                courseCountElement.textContent = 'No autorizado';
+            } else {
+                courseCountElement.textContent = 'Error al cargar';
+            }
+        }
     }
-
-    prevBtn.addEventListener('click', () => {
-        currentIndex = (currentIndex - 1 + testimonialCards.length) % testimonialCards.length;
-        updateTestimonialCarousel();
-    });
-
-    nextBtn.addEventListener('click', () => {
-        currentIndex = (currentIndex + 1) % testimonialCards.length;
-        updateTestimonialCarousel();
-    });
 }
 
-function initializeNewsletter() {
-    const newsletterForm = document.querySelector('.newsletter-form');
-    
-    newsletterForm.addEventListener('submit', function(e) {
-        e.preventDefault();
-        const email = this.querySelector('input[type="email"]').value;
-        
-        if (email) {
-            // Show success message
-            const successMessage = document.createElement('div');
-            successMessage.textContent = '¡Gracias por suscribirte! Revisa tu correo para confirmar.';
-            successMessage.style.cssText = `
-                position: fixed;
-                top: 20px;
-                right: 20px;
-                background: var(--success-green);
-                color: white;
-                padding: 1rem 1.5rem;
-                border-radius: 0.5rem;
-                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-                z-index: 1000;
-            `;
-            document.body.appendChild(successMessage);
-            
-            // Reset form
-            this.reset();
-            
-            // Remove message after 5 seconds
-            setTimeout(() => successMessage.remove(), 5000);
+// Función para inicializar la barra de búsqueda
+function initializeSearch() {
+    const searchInput = document.getElementById('search-input');
+    const searchButton = document.getElementById('search-button');
+
+    if (!searchInput || !searchButton) return;
+
+    const performSearch = async () => {
+        const query = searchInput.value.trim();
+        if (!query) return;
+
+        // Mostramos un estado de carga
+        displayCourses([], `Buscando cursos para "${query}"...`);
+        document.getElementById('cursos').scrollIntoView({ behavior: 'smooth' });
+
+        try {
+            const results = await new API().search(query);
+            displayCourses(results, `Resultados para "${query}"`);
+        } catch (error) {
+            console.error('Error en la búsqueda:', error);
+            displayCourses([], 'Error en la búsqueda');
+        }
+    };
+
+    searchButton.addEventListener('click', performSearch);
+    searchInput.addEventListener('keydown', (event) => {
+        if (event.key === 'Enter') {
+            event.preventDefault(); // Evita que el formulario se envíe (si lo hubiera)
+            performSearch();
         }
     });
 }
 
-function performSearch() {
-    const searchInput = document.querySelector('.hero-search input');
-    const searchTerm = searchInput.value.trim();
-    
-    if (searchTerm) {
-        window.location.href = `#catalogo?search=${encodeURIComponent(searchTerm)}`;
+// Función para inicializar el carrusel de testimonios
+function initializeCarousels() {
+    const carousel = document.querySelector('.testimonial-carousel');
+    if (!carousel) return;
+
+    const container = carousel.querySelector('.testimonial-container');
+    const prevBtn = carousel.querySelector('.carousel-btn.prev');
+    const nextBtn = carousel.querySelector('.carousel-btn.next');
+    const testimonials = container.querySelectorAll('.testimonial-card');
+
+    if (!container || !prevBtn || !nextBtn || testimonials.length === 0) {
+        console.warn('Elementos del carrusel de testimonios no encontrados.');
+        return;
     }
+
+    let currentIndex = 0;
+    const totalTestimonials = testimonials.length;
+
+    const getVisibleCount = () => {
+        // Asumimos que en pantallas pequeñas (< 768px) se ve 1 testimonio, y en grandes se ven 2.
+        // Esto debe coincidir con tu CSS (en responsive.css).
+        return window.innerWidth < 768 ? 1 : 2;
+    };
+
+    const updateCarousel = () => {
+        const visibleCount = getVisibleCount();
+        const maxIndex = totalTestimonials - visibleCount;
+
+        // Asegurarse de que el índice no se salga de los límites
+        if (currentIndex > maxIndex) {
+            currentIndex = maxIndex;
+        }
+        if (currentIndex < 0) {
+            currentIndex = 0;
+        }
+
+        // El desplazamiento se calcula basado en el número de tarjetas visibles.
+        // Esto asume que las tarjetas tienen un `flex-basis` o `width` porcentual en el CSS.
+        const offset = -currentIndex * (100 / visibleCount);
+        container.style.transform = `translateX(${offset}%)`;
+
+        // Actualizar estado de los botones
+        prevBtn.disabled = currentIndex === 0;
+        nextBtn.disabled = currentIndex >= maxIndex;
+    };
+
+    nextBtn.addEventListener('click', () => {
+        currentIndex++;
+        updateCarousel();
+    });
+
+    prevBtn.addEventListener('click', () => {
+        currentIndex--;
+        updateCarousel();
+    });
+
+    // Actualizar el carrusel si cambia el tamaño de la ventana
+    window.addEventListener('resize', updateCarousel);
+
+    // Llamada inicial para establecer el estado correcto
+    updateCarousel();
 }
 
-// Handle logout
-document.addEventListener('click', function(e) {
-    if (e.target.matches('a[href="#logout"]')) {
-        e.preventDefault();
-        localStorage.removeItem(CONFIG.STORAGE_KEYS.USER);
-        localStorage.removeItem(CONFIG.STORAGE_KEYS.TOKEN);
-        window.location.href = '#login';
-    }
-    // Botón de recarga temporal
-document.getElementById('reloadData')?.addEventListener('click', function() {
-    location.reload();
+// Inicialización cuando el DOM está listo
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('DOM cargado, inicializando componentes...');
+    // TODO: Implementar las siguientes funciones
+    initializeCarousels();
+    // initializeNewsletter(); // Próximo paso
+    initializeSearch();
+    loadFeaturedCourses();
+    loadCategories();
 });

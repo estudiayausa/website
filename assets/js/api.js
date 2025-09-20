@@ -1,16 +1,17 @@
-class API {
+import CONFIG from './config.js';
+
+export class API {
     constructor() {
         this.baseURL = CONFIG.API_BASE_URL;
-        this.token = CONFIG.API_TOKEN;
+        this.token = CONFIG.AFFILIATE_API_TOKEN;
         this.affiliateId = CONFIG.AFFILIATE_ID;
     }
 
     async request(endpoint, options = {}) {
         const url = `${this.baseURL}${endpoint}`;
         const headers = {
-            'Authorization': `Bearer ${this.token}`,
+            'x-access-token': this.token,
             'Content-Type': 'application/json',
-            'Affiliate-ID': this.affiliateId,
             ...options.headers
         };
 
@@ -23,36 +24,47 @@ class API {
             const response = await fetch(url, config);
             
             if (!response.ok) {
-                throw new Error(`API request failed: ${response.status} ${response.statusText}`);
+                // Try to get more details from the response body for better error messages
+                let errorDetails = '';
+                try {
+                    const errorData = await response.json();
+                    errorDetails = ` - Body: ${JSON.stringify(errorData)}`;
+                } catch (e) {
+                    // The body is not JSON or is empty, that's fine.
+                }
+                throw new Error(`API request failed: ${response.status} ${response.statusText}${errorDetails}`);
             }
 
-            return await response.json();
+            // Handle cases where the response is OK but has no content to avoid JSON parsing errors
+            const responseText = await response.text();
+            return responseText ? JSON.parse(responseText) : null;
         } catch (error) {
-            console.error('API Error:', error);
+            console.error(`API Error on request to ${url}:`, error);
             throw error;
         }
     }
 
     async getCourses(params = {}) {
         const searchParams = new URLSearchParams({
-            affiliate_id: this.affiliateId,
             ...params
         });
 
         return this.request(`${CONFIG.ENDPOINTS.COURSES}?${searchParams}`);
     }
 
-    async getCourseById(id) {
-        return this.request(`${CONFIG.ENDPOINTS.COURSES}/${id}?affiliate_id=${this.affiliateId}`);
-    }
-
     async getCoursesByCategory(category) {
         const mappedCategory = CONFIG.CATEGORIES_MAPPING[category];
         if (!mappedCategory) {
+            // Return a resolved promise with an empty array for invalid categories
+            console.warn(`Invalid category requested: ${category}`);
             throw new Error('Invalid category');
         }
 
         return this.getCourses({ category: mappedCategory });
+    }
+
+    async getCourseById(id) {
+        return this.request(`${CONFIG.ENDPOINTS.COURSES}/${id}`);
     }
 
     async getCategories() {
@@ -96,7 +108,7 @@ class API {
 
     async search(query, filters = {}) {
         return this.getCourses({
-            search: query,
+            q: query,
             ...filters
         });
     }

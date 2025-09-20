@@ -14,14 +14,14 @@
     <!-- Header -->
     <header>
         <div class="container header-container">
-            <div class="logo">
+            <a href="/" class="logo">
                 <i class="fas fa-graduation-cap"></i>
                 EstudiaYa
-            </div>
+            </a>
             <nav>
                 <ul>
                     <li><a href="#cursos">Cursos</a></li>
-                    <li><a href="#instructores">Instructores</a></li>
+                    <li><a href="#testimonios">Instructores</a></li>
                     <li><a href="#blog">Blog</a></li>
                     <li><a href="#soporte">Soporte</a></li>
                 </ul>
@@ -39,9 +39,9 @@
             <div class="hero-content">
                 <h1>Aprende con los mejores instructores en línea</h1>
                 <p>Cursos de calidad para impulsar tu carrera</p>
-                <div class="hero-search">
-                    <input type="text" placeholder="Buscar cursos, temas o instructores...">
-                    <button><i class="fas fa-search"></i></button>
+                <div id="search-container" class="hero-search">
+                    <input id="search-input" type="text" placeholder="Buscar cursos, temas o instructores...">
+                    <button id="search-button" type="button"><i class="fas fa-search"></i></button>
                 </div>
                 <div class="hero-buttons">
                     <a href="#catalogo" class="btn btn-primary">Explorar cursos</a>
@@ -86,7 +86,7 @@
     </section>
 
     <!-- Featured Courses -->
-    <section class="featured-courses">
+    <section id="cursos" class="featured-courses">
         <div class="container">
             <h2 class="section-title">Cursos Destacados</h2>
             <div id="courses-container" class="course-grid">
@@ -128,7 +128,7 @@
     </section>
 
     <!-- Testimonials -->
-    <section class="testimonials">
+    <section id="testimonios" class="testimonials">
         <div class="container">
             <h2 class="section-title">Testimonios</h2>
             <div class="testimonial-carousel">
@@ -136,7 +136,7 @@
                     <div class="testimonial-card">
                         <p class="testimonial-content">"EstudiaYa cambió mi vida profesional. Los cursos de alta calidad y los instructores expertos me ayudaron a cambiar de carrera y conseguir un mejor trabajo."</p>
                         <div class="testimonial-author">
-                            <img src="https://randomuser.me/api/portraits/women/4.jpg" alt="Estudiante" class="author-avatar">
+                            <img src="https://picsum.photos/seed/student1/50/50" alt="Estudiante" class="author-avatar">
                             <div class="author-info">
                                 <h4>Sofía Martínez</h4>
                                 <p>Desarrolladora Web</p>
@@ -146,7 +146,7 @@
                     <div class="testimonial-card">
                         <p class="testimonial-content">"La flexibilidad de la plataforma me permitió aprender mientras trabajaba. Los recursos adicionales y el certificado fueron clave para mi ascenso."</p>
                         <div class="testimonial-author">
-                            <img src="https://randomuser.me/api/portraits/men/5.jpg" alt="Estudiante" class="author-avatar">
+                            <img src="https://picsum.photos/seed/student2/50/50" alt="Estudiante" class="author-avatar">
                             <div class="author-info">
                                 <h4>Pablo Sánchez</h4>
                                 <p>Gerente de Marketing</p>
@@ -196,7 +196,7 @@
                         <li><a href="#">Foro</a></li>
                     </ul>
                 </div>
-                <div class="footer-column">
+                <div id="soporte" class="footer-column">
                     <h3>Soporte</h3>
                     <ul>
                         <li><a href="#">Centro de ayuda</a></li>
@@ -221,8 +221,7 @@
         </div>
     </footer>
 
-    <script src="assets/js/config.js"></script>
-    <script src="assets/js/api.js"></script>
-    <script src="assets/js/main.js"></script>
+    <!-- main.js es ahora un módulo y se encargará de importar sus dependencias (config.js, api.js) -->
+    <script type="module" src="assets/js/main.js"></script>
 </body>
 </html>

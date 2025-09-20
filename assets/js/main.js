@@ -255,12 +255,40 @@ function initializeCarousels() {
     updateCarousel();
 }
 
+// Función para inicializar el formulario de la newsletter
+function initializeNewsletter() {
+    const newsletterForm = document.getElementById('newsletter-form');
+    if (!newsletterForm) return;
+
+    newsletterForm.addEventListener('submit', (event) => {
+        event.preventDefault();
+        const emailInput = newsletterForm.querySelector('input[type="email"]');
+        
+        console.log(`Email suscrito: ${emailInput.value}`);
+        showSuccess('¡Gracias por suscribirte!');
+        emailInput.value = ''; // Limpiar el campo
+    });
+}
+
+// --- Helper Functions ---
+function showSuccess(message) {
+    const notification = document.createElement('div');
+    notification.className = 'notification success';
+    notification.textContent = message;
+    document.body.appendChild(notification);
+
+    // Remove after animation ends
+    setTimeout(() => {
+        notification.remove();
+    }, 4000);
+}
+
 // Inicialización cuando el DOM está listo
 document.addEventListener('DOMContentLoaded', function() {
     console.log('DOM cargado, inicializando componentes...');
     // TODO: Implementar las siguientes funciones
     initializeCarousels();
-    // initializeNewsletter(); // Próximo paso
+    initializeNewsletter();
     initializeSearch();
     loadFeaturedCourses();
     loadCategories();

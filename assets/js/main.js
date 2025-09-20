@@ -7,7 +7,6 @@ import { mockCourses, mockCategoryCounts } from './mock-data.js';
 
 // Función principal para cargar cursos destacados
 async function loadFeaturedCourses() {
-    console.log('Cargando cursos destacados...');
     const coursesContainer = document.getElementById('courses-container');
     
     if (!coursesContainer) {
@@ -15,14 +14,6 @@ async function loadFeaturedCourses() {
         return;
     }
 
-    // Si estamos usando datos de prueba, cárgalos y sal de la función.
-    if (CONFIG.USE_MOCK_DATA) {
-        console.log('Usando datos de prueba (mock data) para los cursos.');
-        coursesContainer.innerHTML = mockCourses.map(course => createCourseCard(course)).join('');
-        console.log('Cursos cargados desde mock data:', mockCourses.length);
-        return;
-    }
-    
     try {
         // Usamos el parámetro 'sort' para traer los más populares, como indica la API.
         const courses = await new API().getCourses({ limit: 6, sort: '-popularity' });
@@ -137,12 +128,6 @@ async function loadCategories() {
         if (!courseCountElement) continue;
         
         // Si usamos datos de prueba, los usamos y continuamos al siguiente.
-        if (CONFIG.USE_MOCK_DATA) {
-            const mockCount = mockCategoryCounts[category] || 0;
-            courseCountElement.textContent = `${mockCount} ${mockCount === 1 ? 'curso' : 'cursos'}`;
-            console.log(`Usando datos de prueba para categoría ${category}: ${mockCount} cursos.`);
-            continue;
-        }
 
         try {
             // Usamos la API centralizada

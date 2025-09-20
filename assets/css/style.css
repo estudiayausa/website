@@ -457,6 +457,11 @@ nav ul li a:hover {
     transition: background 0.3s;
 }
 
+.newsletter-form button:disabled {
+    background: var(--gray);
+    cursor: not-allowed;
+}
+
 /* Footer */
 footer {
     background: var(--dark);

@@ -260,13 +260,38 @@ function initializeNewsletter() {
     const newsletterForm = document.getElementById('newsletter-form');
     if (!newsletterForm) return;
 
-    newsletterForm.addEventListener('submit', (event) => {
+    newsletterForm.addEventListener('submit', async (event) => {
         event.preventDefault();
-        const emailInput = newsletterForm.querySelector('input[type="email"]');
-        
-        console.log(`Email suscrito: ${emailInput.value}`);
-        showSuccess('¡Gracias por suscribirte!');
-        emailInput.value = ''; // Limpiar el campo
+
+        const formData = new FormData(newsletterForm);
+        const submitButton = newsletterForm.querySelector('button[type="submit"]');
+        const originalButtonText = submitButton.textContent;
+
+        // Deshabilitar botón y mostrar estado de carga
+        submitButton.disabled = true;
+        submitButton.textContent = 'Enviando...';
+
+        try {
+            const response = await fetch('/', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                body: new URLSearchParams(formData).toString()
+            });
+
+            if (response.ok) {
+                showSuccess('¡Gracias por suscribirte!');
+                newsletterForm.reset();
+            } else {
+                throw new Error('Falló el envío del formulario');
+            }
+        } catch (error) {
+            console.error('Error en la suscripción:', error);
+            alert('Hubo un error al enviar tu suscripción. Por favor, inténtalo de nuevo.');
+        } finally {
+            // Rehabilitar el botón
+            submitButton.disabled = false;
+            submitButton.textContent = originalButtonText;
+        }
     });
 }
 
@@ -287,7 +312,6 @@ function showSuccess(message) {
 document.addEventListener('DOMContentLoaded', function() {
     console.log('DOM cargado, inicializando componentes...');
     // TODO: Implementar las siguientes funciones
-    initializeCarousels();
     initializeNewsletter();
     initializeSearch();
     loadFeaturedCourses();

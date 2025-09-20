@@ -80,3 +80,36 @@ export const mockCategoryCounts = {
     'finanzas': 67,
     'creatividad': 112
 };
+
+export const mockApiCategories = [
+    {
+        code: 'desarrollo-web',
+        name: 'Desarrollo Web y Programación',
+        courses: 152,
+        subcategories: [
+            { code: 'frontend', name: 'Frontend', courses: 70 },
+            { code: 'backend', name: 'Backend', courses: 50 },
+            { code: 'mobile', name: 'Desarrollo Móvil', courses: 32 }
+        ]
+    },
+    {
+        code: 'marketing-digital',
+        name: 'Marketing Digital y Negocios Online',
+        courses: 89,
+        subcategories: [
+            { code: 'seo', name: 'SEO', courses: 25 },
+            { code: 'social-media', name: 'Redes Sociales', courses: 40 },
+            { code: 'email-marketing', name: 'Email Marketing', courses: 24 }
+        ]
+    },
+    {
+        code: 'finanzas-inversion',
+        name: 'Finanzas Personales e Inversión',
+        courses: 67,
+        subcategories: [
+            { code: 'inversion', name: 'Inversión y Trading', courses: 30 },
+            { code: 'contabilidad', name: 'Contabilidad', courses: 20 },
+            { code: 'crypto', name: 'Criptomonedas', courses: 17 }
+        ]
+    }
+];

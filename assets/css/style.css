@@ -365,11 +365,12 @@ nav ul li a:hover {
 }
 
 .testimonial-card {
-    flex: 0 0 100%;
+    flex: 0 0 50%;
     background: var(--white);
     border-radius: 0.75rem;
     padding: 2rem;
     box-shadow: var(--shadow);
+    box-sizing: border-box;
 }
 
 .testimonial-content {
@@ -449,7 +450,7 @@ nav ul li a:hover {
     background: var(--success-green);
     color: var(--white);
     border: none;
-    padding: 0 2rem;
+    padding: 0.8rem 2rem;
     border-radius: 0.5rem;
     cursor: pointer;
     font-weight: 500;

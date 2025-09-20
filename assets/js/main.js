@@ -14,6 +14,13 @@ async function loadFeaturedCourses() {
         return;
     }
 
+    // Si estamos usando datos de prueba, cárgalos y sal de la función.
+    if (CONFIG.USE_MOCK_DATA) {
+        console.log('Usando datos de prueba (mock data) para los cursos.');
+        displayCourses(mockCourses, 'Cursos Destacados');
+        return;
+    }
+
     try {
         // Usamos el parámetro 'sort' para traer los más populares, como indica la API.
         const courses = await new API().getCourses({ limit: 6, sort: '-popularity' });
@@ -128,6 +135,11 @@ async function loadCategories() {
         if (!courseCountElement) continue;
         
         // Si usamos datos de prueba, los usamos y continuamos al siguiente.
+        if (CONFIG.USE_MOCK_DATA) {
+            const mockCount = mockCategoryCounts[category] || 0;
+            courseCountElement.textContent = `${mockCount} ${mockCount === 1 ? 'curso' : 'cursos'}`;
+            continue;
+        }
 
         try {
             // Usamos la API centralizada

@@ -275,7 +275,11 @@ function initializeNewsletter() {
             const response = await fetch('/', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-                body: new URLSearchParams(formData).toString()
+                // Netlify necesita que le enviemos el nombre del formulario en el cuerpo de la petición para AJAX.
+                body: new URLSearchParams({
+                    'form-name': newsletterForm.getAttribute('name'),
+                    ...Object.fromEntries(formData)
+                }).toString()
             });
 
             if (response.ok) {

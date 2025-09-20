@@ -159,6 +159,41 @@ async function loadCategories() {
     }
 }
 
+// Función para que las tarjetas de categoría sean interactivas
+function initializeCategoriesInteraction() {
+    const categoryCards = document.querySelectorAll('.category-card');
+    categoryCards.forEach(card => {
+        card.addEventListener('click', async () => {
+            const category = card.dataset.category;
+            const categoryTitle = card.querySelector('h3').textContent;
+
+            // Muestra un estado de carga y se desplaza a la sección de cursos
+            displayCourses([], `Cargando cursos de ${categoryTitle}...`);
+            document.getElementById('cursos').scrollIntoView({ behavior: 'smooth' });
+
+            try {
+                const courses = await new API().getCoursesByCategory(category);
+                displayCourses(courses, `Cursos de ${categoryTitle}`);
+            } catch (error) {
+                console.error(`Error al cargar cursos para la categoría ${category}:`, error);
+                displayCourses([], `Error al cargar cursos de ${categoryTitle}`);
+            }
+        });
+    });
+
+    // Funcionalidad para el botón "Ver todos los cursos" para que recargue los destacados
+    const viewAllBtn = document.getElementById('view-all-btn');
+    if (viewAllBtn) {
+        viewAllBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            // Vuelve a cargar los cursos destacados
+            loadFeaturedCourses();
+            // Se desplaza suavemente a la sección de cursos
+            document.getElementById('cursos').scrollIntoView({ behavior: 'smooth' });
+        });
+    }
+}
+
 // Función para inicializar la barra de búsqueda
 function initializeSearch() {
     const searchInput = document.getElementById('search-input');
@@ -321,4 +356,5 @@ document.addEventListener('DOMContentLoaded', function() {
     initializeSearch();
     loadFeaturedCourses();
     loadCategories();
+    initializeCategoriesInteraction();
 });

@@ -316,6 +316,7 @@ function showSuccess(message) {
 document.addEventListener('DOMContentLoaded', function() {
     console.log('DOM cargado, inicializando componentes...');
     // TODO: Implementar las siguientes funciones
+    initializeCarousels();
     initializeNewsletter();
     initializeSearch();
     loadFeaturedCourses();

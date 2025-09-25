@@ -77,7 +77,7 @@ function createCourseCard(course) {
     const courseLink = `course.html?code=${course.code}`; 
     const instructorName = course.teacher?.name || 'Instructor no disponible';
     // La API no proporciona avatar del instructor, usamos un placeholder.
-    const instructorAvatar = 'https://via.placeholder.com/30x30';
+    const instructorAvatar = `https://picsum.photos/seed/avatar-${course.code || course.id}/30/30`;
     const rating = course.stats?.reviews_avg || 0;
     const studentsCount = course.stats?.students || 0;
     // Usamos el precio en USD como predeterminado, o EUR si no está disponible.
@@ -85,7 +85,7 @@ function createCourseCard(course) {
 
     return `
         <div class="course-card">
-            <div class="course-image" style="background-image: url('${course.image_url || 'https://via.placeholder.com/300x180'}')"></div>
+            <div class="course-image" style="background-image: url('${course.image_url || `https://picsum.photos/seed/course-${course.code || course.id}/300/180`}')"></div>
             <div class="course-content">
                 <h3 class="course-title">${course.name || 'Título del curso'}</h3>
                 <div class="course-instructor">
@@ -163,7 +163,8 @@ async function loadCategories() {
 function initializeCategoriesInteraction() {
     const categoryCards = document.querySelectorAll('.category-card');
     categoryCards.forEach(card => {
-        card.addEventListener('click', async () => {
+        card.addEventListener('click', async (e) => {
+            e.preventDefault(); // Previene el salto brusco del enlace
             const category = card.dataset.category;
             const categoryTitle = card.querySelector('h3').textContent;
 

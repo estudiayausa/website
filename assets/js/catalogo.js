@@ -94,14 +94,14 @@ async function loadCatalog() {
 function createCourseCard(course) {
     const courseLink = `course.html?code=${course.code || course.id}`; 
     const instructorName = course.teacher?.name || course.user?.name || 'Instructor no disponible';
-    const instructorAvatar = 'https://via.placeholder.com/30x30';
+    const instructorAvatar = `https://picsum.photos/seed/avatar-${course.code || course.id}/30/30`;
     const rating = course.stats?.reviews_avg || course.rating_avg || 0;
     const studentsCount = course.stats?.students || course.students_count || 0;
     const price = course.price?.USD ?? course.price?.EUR ?? course.price?.amount ?? 0;
 
     return `
         <div class="course-card">
-            <div class="course-image" style="background-image: url('${course.image_url || course.thumbnail || 'https://via.placeholder.com/300x180'}')"></div>
+            <div class="course-image" style="background-image: url('${course.image_url || course.thumbnail || `https://picsum.photos/seed/course-${course.code || course.id}/300/180`}')"></div>
             <div class="course-content">
                 <h3 class="course-title">${course.name || course.title || 'Título del curso'}</h3>
                 <div class="course-instructor">

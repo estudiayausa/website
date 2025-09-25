@@ -159,6 +159,61 @@ async function loadCategories() {
     }
 }
 
+// Función para cargar todas las subcategorías
+async function loadAllSubcategories() {
+    const subcategoriesContainer = document.getElementById('subcategories-container');
+    if (!subcategoriesContainer) return;
+
+    try {
+        const api = new API();
+        let allCategories;
+
+        if (CONFIG.USE_MOCK_DATA) {
+            console.log('Usando datos de prueba (mock data) para las subcategorías.');
+            allCategories = mockApiCategories;
+        } else {
+            allCategories = await api.getCategories();
+        }
+
+        // Aplanamos el array de subcategorías de todas las categorías
+        const allSubcategories = allCategories.flatMap(category => category.subcategories || []);
+
+        if (allSubcategories.length > 0) {
+            subcategoriesContainer.innerHTML = allSubcategories.map(sub => 
+                `<button class="subcategory-tag" data-subcategory-code="${sub.code}">${sub.name}</button>`
+            ).join('');
+            initializeSubcategoriesInteraction();
+        } else {
+            subcategoriesContainer.innerHTML = '<p>No se encontraron subcategorías.</p>';
+        }
+    } catch (error) {
+        console.error('Error al cargar las subcategorías:', error);
+        subcategoriesContainer.innerHTML = '<p>Error al cargar subcategorías.</p>';
+    }
+}
+
+// Función para que las etiquetas de subcategoría sean interactivas
+function initializeSubcategoriesInteraction() {
+    const subcategoryTags = document.querySelectorAll('.subcategory-tag');
+    subcategoryTags.forEach(tag => {
+        tag.addEventListener('click', async () => {
+            const subcategoryCode = tag.dataset.subcategoryCode;
+            const subcategoryName = tag.textContent;
+
+            displayCourses([], `Cargando cursos de ${subcategoryName}...`);
+            document.getElementById('cursos').scrollIntoView({ behavior: 'smooth' });
+
+            try {
+                const courses = await new API().getCourses({ subcategory_code: subcategoryCode });
+                displayCourses(courses, `Cursos de ${subcategoryName}`);
+            } catch (error) {
+                console.error(`Error al cargar cursos para la subcategoría ${subcategoryCode}:`, error);
+                displayCourses([], `Error al cargar cursos de ${subcategoryName}`);
+            }
+        });
+    });
+}
+
 // Función para que las tarjetas de categoría sean interactivas
 function initializeCategoriesInteraction() {
     const categoryCards = document.querySelectorAll('.category-card');
@@ -357,5 +412,6 @@ document.addEventListener('DOMContentLoaded', function() {
     initializeSearch();
     loadFeaturedCourses();
     loadCategories();
+    loadAllSubcategories();
     initializeCategoriesInteraction();
 });

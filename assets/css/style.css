@@ -233,6 +233,38 @@ nav ul li a:hover {
     margin-top: 0.5rem;
 }
 
+/* Subcategories Section */
+.subcategories {
+    padding: 2rem 0 4rem; /* Menos padding superior ya que va debajo de categorías */
+}
+
+.subcategories-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1rem;
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.subcategory-tag {
+    background-color: var(--light-gray);
+    color: var(--dark);
+    padding: 0.5rem 1.25rem;
+    border-radius: 2rem;
+    border: 1px solid #e2e8f0;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-weight: 500;
+}
+
+.subcategory-tag:hover {
+    background-color: var(--primary-blue);
+    color: var(--white);
+    border-color: var(--primary-blue);
+    transform: translateY(-2px);
+}
+
 /* Featured Courses */
 .featured-courses {
     padding: 4rem 0;

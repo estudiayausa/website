@@ -47,6 +47,51 @@ const careersData = {
             { id: 11, name: "Deep Learning con TensorFlow", image_url: "https://picsum.photos/seed/ia3/300/180" },
             { id: 12, name: "Procesamiento de Lenguaje Natural (NLP)", image_url: "https://picsum.photos/seed/ia4/300/180" },
         ]
+    },
+    datascience: {
+        title: "Carrera Data Science",
+        subtitle: "Transforma datos en decisiones estratégicas aprendiendo análisis, visualización y modelos predictivos.",
+        description: "<p>Conviértete en un Científico de Datos. Esta carrera te enseñará a recolectar, limpiar, analizar y visualizar datos para extraer insights valiosos. Aprenderás a usar herramientas como Python, Pandas, y a construir modelos de Machine Learning para resolver problemas de negocio reales.</p>",
+        image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=2070&auto=format&fit=crop",
+        coursesCount: 20,
+        duration: "180h",
+        outcomes: ["Analista de Datos", "Científico de Datos Jr.", "Especialista en Business Intelligence"],
+        learningPath: [
+            { id: 13, name: "Análisis de Datos con Pandas", image_url: "https://picsum.photos/seed/ds1/300/180" },
+            { id: 14, name: "Visualización de Datos con Matplotlib", image_url: "https://picsum.photos/seed/ds2/300/180" },
+            { id: 15, name: "Estadística para Data Science", image_url: "https://picsum.photos/seed/ds3/300/180" },
+            { id: 16, name: "Modelos Predictivos con Scikit-Learn", image_url: "https://picsum.photos/seed/ds4/300/180" },
+        ]
+    },
+    uxui: {
+        title: "Carrera Diseño UX/UI",
+        subtitle: "Crea productos digitales intuitivos y atractivos que los usuarios amen, desde la investigación hasta el prototipado.",
+        description: "<p>Aprende a diseñar experiencias de usuario memorables. Esta carrera cubre todo el proceso de diseño, desde la investigación de usuarios y la arquitectura de información, hasta el diseño de interfaces visualmente atractivas y la creación de prototipos interactivos con herramientas como Figma.</p>",
+        image: "https://images.unsplash.com/photo-1581291518857-4e27b48ff24e?q=80&w=2070&auto=format&fit=crop",
+        coursesCount: 14,
+        duration: "95h",
+        outcomes: ["Diseñador UX", "Diseñador UI", "Investigador de Usuarios (UX Researcher)"],
+        learningPath: [
+            { id: 17, name: "Fundamentos de User Experience (UX)", image_url: "https://picsum.photos/seed/ux1/300/180" },
+            { id: 18, name: "Diseño de Interfaces (UI) con Figma", image_url: "https://picsum.photos/seed/ux2/300/180" },
+            { id: 19, name: "Investigación y Pruebas con Usuarios", image_url: "https://picsum.photos/seed/ux3/300/180" },
+            { id: 20, name: "Creación de Prototipos y Design Systems", image_url: "https://picsum.photos/seed/ux4/300/180" },
+        ]
+    },
+    marketing: {
+        title: "Carrera Marketing Avanzado",
+        subtitle: "Domina las estrategias de SEO, SEM y automatización para llevar cualquier negocio al siguiente nivel.",
+        description: "<p>Ve más allá de las redes sociales. Esta carrera avanzada te sumerge en el marketing de resultados, enseñándote a optimizar motores de búsqueda (SEO), a gestionar campañas de pago (SEM) en Google Ads, y a crear embudos de conversión automatizados para maximizar el retorno de inversión.</p>",
+        image: "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?q=80&w=2070&auto=format&fit=crop",
+        coursesCount: 16,
+        duration: "120h",
+        outcomes: ["Especialista SEO/SEM", "Marketing Automation Manager", "Digital Marketing Strategist"],
+        learningPath: [
+            { id: 21, name: "SEO Técnico y Link Building", image_url: "https://picsum.photos/seed/ma1/300/180" },
+            { id: 22, name: "Google Ads: Campañas de Búsqueda y Display", image_url: "https://picsum.photos/seed/ma2/300/180" },
+            { id: 23, name: "Automatización de Marketing con ActiveCampaign", image_url: "https://picsum.photos/seed/ma3/300/180" },
+            { id: 24, name: "Analítica Web con Google Analytics 4", image_url: "https://picsum.photos/seed/ma4/300/180" },
+        ]
     }
 };
 

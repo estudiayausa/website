@@ -21,7 +21,7 @@ const CONFIG = {
         'tecnologia': 'tecnologia',
         'negocios': 'emprendimiento', // Corregido: 'negocios' no existe, usamos 'emprendimiento'
         'blockchain-ia': 'blockchain', // Mapeado a 'blockchain' de la API
-        'desarrollo-personal': 'productividad', // Corregido: 'desarrollo-personal' no existe, usamos 'productividad'
+        'emprendimiento': 'emprendimiento', // Reemplaza 'desarrollo-personal'
         'cultura': 'cultura',
         'idiomas': 'idiomas'
     }

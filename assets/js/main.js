@@ -228,7 +228,7 @@ function initializeCategoriesInteraction() {
             document.getElementById('cursos').scrollIntoView({ behavior: 'smooth' });
 
             try {
-                const courses = await new API().getCoursesByCategory(category);
+                const courses = await new API().getCoursesByCategory(category, { sort: '-price' });
                 displayCourses(courses, `Cursos de ${categoryTitle}`);
             } catch (error) {
                 console.error(`Error al cargar cursos para la categoría ${category}:`, error);

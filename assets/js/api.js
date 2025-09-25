@@ -52,15 +52,15 @@ export class API {
         return this.request(`${CONFIG.ENDPOINTS.COURSES}?${searchParams}`);
     }
 
-    async getCoursesByCategory(category) {
+    async getCoursesByCategory(category, params = {}) {
         const mappedCategory = CONFIG.CATEGORIES_MAPPING[category];
         if (!mappedCategory) {
             // Return a resolved promise with an empty array for invalid categories
             console.warn(`Invalid category requested: ${category}`);
             throw new Error('Invalid category');
         }
-
-        return this.getCourses({ category_code: mappedCategory });
+        // Combinamos el código de categoría con otros parámetros opcionales (como 'sort')
+        return this.getCourses({ category_code: mappedCategory, ...params });
     }
 
     async getCourseById(id) {

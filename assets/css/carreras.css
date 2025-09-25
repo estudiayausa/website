@@ -11,13 +11,22 @@
     margin-bottom: 3rem;
 }
 
-.careers-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-    gap: 2rem;
+/* Carousel Styles */
+.carousel-wrapper {
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+}
+
+.carousel-container {
+    display: flex;
+    transition: transform 0.5s ease;
 }
 
 .career-card {
+    flex: 0 0 calc(100% / 3); /* Muestra 3 tarjetas */
+    box-sizing: border-box;
+    margin: 0 1rem; /* Espacio entre tarjetas */
     position: relative;
     border-radius: 0.75rem;
     overflow: hidden;
@@ -30,6 +39,10 @@
     background-size: cover;
     background-position: center;
     transition: transform 0.3s ease;
+}
+
+.carousel-container .career-card:first-child {
+    margin-left: 0;
 }
 
 .career-card:hover {
@@ -74,4 +87,90 @@
 
 .career-stats span i {
     margin-right: 0.5rem;
+}
+
+.view-all-container {
+    text-align: center;
+    margin-top: 2rem;
+}
+
+/* Plans Section */
+.plans-section {
+    padding: 4rem 0;
+}
+
+.plans-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    align-items: center;
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.plan-card {
+    background: var(--white);
+    border: 1px solid #e2e8f0;
+    border-radius: 0.75rem;
+    padding: 2rem;
+    text-align: center;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.plan-card.recommended {
+    border-color: var(--primary-blue);
+    transform: scale(1.05);
+    box-shadow: var(--shadow-lg);
+}
+
+.recommended-badge {
+    position: absolute;
+    top: -15px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--primary-blue);
+    color: var(--white);
+    padding: 0.25rem 1rem;
+    border-radius: 1rem;
+    font-size: 0.8rem;
+    font-weight: 600;
+}
+
+.plan-card h3 {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+.plan-price {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+}
+
+.plan-price span {
+    font-size: 1rem;
+    font-weight: 400;
+    color: var(--gray);
+}
+
+.plan-features {
+    list-style: none;
+    text-align: left;
+    margin-bottom: 2rem;
+}
+
+.plan-features li {
+    margin-bottom: 0.75rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.plan-features i {
+    color: var(--success-green);
+}
+
+.plan-features i.fa-times-circle {
+    color: #ef4444;
 }

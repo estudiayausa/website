@@ -19,9 +19,9 @@ const CONFIG = {
     // Estos son ejemplos, ajústalos si la API requiere otros valores.
     CATEGORIES_MAPPING: {
         'tecnologia': 'tecnologia',
-        'negocios': 'negocios',
+        'negocios': 'emprendimiento', // Corregido: 'negocios' no existe, usamos 'emprendimiento'
         'blockchain-ia': 'blockchain', // Mapeado a 'blockchain' de la API
-        'desarrollo-personal': 'desarrollo-personal',
+        'desarrollo-personal': 'productividad', // Corregido: 'desarrollo-personal' no existe, usamos 'productividad'
         'cultura': 'cultura',
         'idiomas': 'idiomas'
     }

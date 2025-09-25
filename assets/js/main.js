@@ -125,37 +125,39 @@ function formatPrice(price) {
 
 // Función para cargar categorías
 async function loadCategories() {
-    console.log('Cargando categorías...');
-    const categoryCards = document.querySelectorAll('.category-card');
-    
-    for (const card of categoryCards) {
-        const category = card.dataset.category;
-        const courseCountElement = card.querySelector('.course-count');
-        
-        if (!courseCountElement) continue;
-        
-        // Si usamos datos de prueba, los usamos y continuamos al siguiente.
+    console.log('Cargando conteo de cursos por categoría...');
+    try {
+        const api = new API();
+        let allApiCategories;
+
         if (CONFIG.USE_MOCK_DATA) {
-            const mockCount = mockCategoryCounts[category] || 0;
-            courseCountElement.textContent = `${mockCount} ${mockCount === 1 ? 'curso' : 'cursos'}`;
-            continue;
+            allApiCategories = mockApiCategories;
+        } else {
+            allApiCategories = await api.getCategories();
         }
 
-        try {
-            // Usamos la API centralizada
-            const response = await new API().getCoursesByCategory(category);
-            console.log(`Respuesta de la API (categoría ${category}):`, response);
-            // CORRECCIÓN: La API devuelve un array directamente.
-            const courseCount = response?.length || 0;
-            courseCountElement.textContent = `${courseCount} ${courseCount === 1 ? 'curso' : 'cursos'}`;
-        } catch (error) {
-            console.error(`Error cargando categoría ${category}:`, error);
-            if (error.message.includes('401')) {
-                courseCountElement.textContent = 'No autorizado';
-            } else {
-                courseCountElement.textContent = 'Error al cargar';
+        // Creamos un mapa para buscar fácilmente el conteo por el código de la API
+        const categoryCountsMap = new Map(allApiCategories.map(cat => [cat.code, cat.courses]));
+
+        const categoryCards = document.querySelectorAll('.category-card');
+        categoryCards.forEach(card => {
+            const categoryKey = card.dataset.category; // ej: 'desarrollo-web'
+            const apiCategoryCode = CONFIG.CATEGORIES_MAPPING[categoryKey]; // ej: 'programacion'
+            const courseCountElement = card.querySelector('.course-count');
+
+            if (courseCountElement && apiCategoryCode) {
+                const count = categoryCountsMap.get(apiCategoryCode) || 0;
+                courseCountElement.textContent = `${count} ${count === 1 ? 'curso' : 'cursos'}`;
+            } else if (courseCountElement) {
+                courseCountElement.textContent = '0 cursos';
             }
-        }
+        });
+
+    } catch (error) {
+        console.error('Error al cargar el conteo de categorías:', error);
+        document.querySelectorAll('.course-count').forEach(el => {
+            el.textContent = 'Error al cargar';
+        });
     }
 }
 

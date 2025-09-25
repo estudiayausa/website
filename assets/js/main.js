@@ -275,13 +275,15 @@ function initializeSearch() {
 
 // Función para inicializar el carrusel de testimonios
 function initializeCarousels() {
-    const carousel = document.querySelector('.testimonial-carousel');
-    if (!carousel) return;
+    const testimonialsSection = document.getElementById('testimonios');
+    if (!testimonialsSection) return;
 
-    const container = carousel.querySelector('.testimonial-container');
-    const prevBtn = carousel.querySelector('.carousel-btn.prev');
-    const nextBtn = carousel.querySelector('.carousel-btn.next');
+    const container = testimonialsSection.querySelector('.testimonial-container');
+    const prevBtn = testimonialsSection.querySelector('.carousel-btn.prev');
+    const nextBtn = testimonialsSection.querySelector('.carousel-btn.next');
+    if (!container) return;
     const testimonials = container.querySelectorAll('.testimonial-card');
+
 
     if (!container || !prevBtn || !nextBtn || testimonials.length === 0) {
         console.warn('Elementos del carrusel de testimonios no encontrados.');

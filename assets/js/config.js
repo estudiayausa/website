@@ -22,7 +22,8 @@ const CONFIG = {
         'marketing': 'marketing-digital',
         'salud': 'salud-bienestar',
         'finanzas': 'finanzas-inversion',
-        'creatividad': 'hobbies-creatividad'
+        'creatividad': 'hobbies-creatividad',
+        'idiomas': 'idiomas'
     }
 };
 

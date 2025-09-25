@@ -236,18 +236,6 @@ function initializeCategoriesInteraction() {
             }
         });
     });
-
-    // Funcionalidad para el botón "Ver todos los cursos" para que recargue los destacados
-    const viewAllBtn = document.getElementById('view-all-btn');
-    if (viewAllBtn) {
-        viewAllBtn.addEventListener('click', (e) => {
-            e.preventDefault();
-            // Vuelve a cargar los cursos destacados
-            loadFeaturedCourses();
-            // Se desplaza suavemente a la sección de cursos
-            document.getElementById('cursos').scrollIntoView({ behavior: 'smooth' });
-        });
-    }
 }
 
 // Función para inicializar la barra de búsqueda

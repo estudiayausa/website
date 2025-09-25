@@ -18,6 +18,7 @@ function initializeCareersCarousel() {
 
     let currentIndex = 0;
     const totalCards = cards.length;
+    let autoScrollInterval = null;
 
     const getVisibleCount = () => {
         if (window.innerWidth < 768) return 1;
@@ -45,16 +46,29 @@ function initializeCareersCarousel() {
         nextBtn.disabled = currentIndex >= maxIndex;
     };
 
+    const resetAutoScroll = () => {
+        clearInterval(autoScrollInterval);
+        autoScrollInterval = setInterval(() => {
+            const visibleCount = getVisibleCount();
+            const maxIndex = totalCards - visibleCount;
+            currentIndex = (currentIndex >= maxIndex) ? 0 : currentIndex + 1;
+            updateCarousel();
+        }, 5000); // Cambia cada 5 segundos
+    };
+
     nextBtn.addEventListener('click', () => {
         currentIndex++;
         updateCarousel();
+        resetAutoScroll();
     });
 
     prevBtn.addEventListener('click', () => {
         currentIndex--;
         updateCarousel();
+        resetAutoScroll();
     });
 
     window.addEventListener('resize', updateCarousel);
     updateCarousel();
+    resetAutoScroll(); // Inicia el carrusel automático
 }

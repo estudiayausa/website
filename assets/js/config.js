@@ -18,12 +18,12 @@ const CONFIG = {
     // Mapea los data-category del HTML a los slugs/IDs que espera la API de Tutellus.
     // Estos son ejemplos, ajústalos si la API requiere otros valores.
     CATEGORIES_MAPPING: {
-        'tecnologia': 'tecnologia', // Código de API: tecnologia
-        'negocios': 'negocios', // Código de API: negocios
-        'blockchain-y-ia': 'blockchain', // Código de API: blockchain
-        'emprendimiento': 'emprendimiento', // Código de API: emprendimiento
-        'cultura': 'cultura',
-        'idiomas': 'idiomas'
+        'tecnologia': 'tecnologia',         // Correcto
+        'negocios': 'business',             // API usa 'business'
+        'blockchain-y-ia': 'blockchain',    // Correcto
+        'emprendimiento': 'emprendimiento', // Correcto
+        'cultura': 'cultura-y-humanidades', // API usa 'cultura-y-humanidades'
+        'idiomas': 'idiomas'                // Correcto
     }
 };
 

@@ -4,6 +4,8 @@ import CONFIG from './config.js';
 import { API } from './api.js';
 // Importa los datos de prueba
 import { mockCourses, mockCategoryCounts } from './mock-data.js';
+// Importa la función reutilizable desde utils.js
+import { createCourseCard } from './utils.js';
 
 // Función principal para cargar cursos destacados
 async function loadFeaturedCourses() {
@@ -69,60 +71,6 @@ function displayCourses(courses, title) {
     }
 }
 
-// Función para crear tarjetas de curso
-function createCourseCard(course) {
-    // CORRECCIÓN: Se ajustan las propiedades a la estructura real de la API de Tutellus.
-    // Se añaden fallbacks más robustos para evitar errores si un dato no viene.
-    // Para probar en GitHub Pages, volvemos a enlazar a nuestra página de detalle local.
-    const courseLink = `course.html?code=${course.code}`; 
-    const instructorName = course.teacher?.name || 'Instructor no disponible';
-    // La API no proporciona avatar del instructor, usamos un placeholder.
-    const instructorAvatar = `https://picsum.photos/seed/avatar-${course.code || course.id}/30/30`;
-    const rating = course.stats?.reviews_avg || 0;
-    const studentsCount = course.stats?.students || 0;
-    // Usamos el precio en USD como predeterminado, o EUR si no está disponible.
-    const price = course.price?.USD ?? course.price?.EUR ?? 0;
-
-    return `
-        <div class="course-card">
-            <div class="course-image" style="background-image: url('${course.image_url || `https://picsum.photos/seed/course-${course.code || course.id}/300/180`}')"></div>
-            <div class="course-content">
-                <h3 class="course-title">${course.name || 'Título del curso'}</h3>
-                <div class="course-instructor">
-                    <img src="${instructorAvatar}" alt="${instructorName}" class="instructor-avatar">
-                    <span>${instructorName}</span>
-                </div>
-                <div class="rating">
-                    <div class="stars">${renderStars(rating)}</div>
-                    <span>${rating.toFixed(1)} (${studentsCount})</span>
-                </div>
-                <div class="course-price">${formatPrice(price)}</div>
-                <a href="${courseLink}" class="btn btn-primary">Ver curso</a>
-            </div>
-        </div>
-    `;
-}
-
-// Función para renderizar estrellas de calificación
-function renderStars(rating) {
-    let stars = '';
-    for (let i = 1; i <= 5; i++) {
-        if (i <= rating) {
-            stars += '<i class="fas fa-star"></i>';
-        } else if (i - 0.5 <= rating) {
-            stars += '<i class="fas fa-star-half-alt"></i>';
-        } else {
-            stars += '<i class="far fa-star"></i>';
-        }
-    }
-    return stars;
-}
-
-// Función para formatear precios
-function formatPrice(price) {
-    return price === 0 ? 'Gratis' : `$${price}`;
-}
-
 // Función para cargar categorías
 async function loadCategories() {
     console.log('Cargando conteo de cursos por categoría...');
@@ -137,7 +85,7 @@ async function loadCategories() {
         }
 
         // Creamos un mapa para buscar fácilmente el conteo por el código de la API
-        const categoryCountsMap = new Map(allApiCategories.map(cat => [cat.code, cat.courses]));
+        const categoryCountsMap = new Map(allApiCategories.map(cat => [cat.code, cat.courses || 0]));
 
         const categoryCards = document.querySelectorAll('.category-card');
         categoryCards.forEach(card => {

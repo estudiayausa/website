@@ -1,6 +1,11 @@
 const { DateTime } = require("luxon");
 
 module.exports = function(eleventyConfig) {
+    // Le decimos a Eleventy que procese archivos .html con el motor de Nunjucks
+    eleventyConfig.setTemplateFormats([
+        "md", "njk", "html"
+    ]);
+
     // Copia la carpeta 'assets' al directorio de salida
     eleventyConfig.addPassthroughCopy("assets");
 
@@ -18,6 +23,7 @@ module.exports = function(eleventyConfig) {
 
     return {
         dir: {
+            includes: "_includes",
             input: ".",
             output: "_site" // La carpeta donde se generará el sitio final
         }

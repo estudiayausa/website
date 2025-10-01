@@ -2,7 +2,7 @@
 const CONFIG = {
     USE_MOCK_DATA: false, // Cambia a 'false' cuando tengas un token de API válido
     API_BASE_URL: 'https://affiliate.tutellus.com/api/v1',
-    AFFILIATE_API_TOKEN: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiJ5UlRkMEp6RG0iLCJhdWQiOiJhZmZpbGlhdGUiLCJhZmZfdG9rZW4iOiI2OWZkM2YwNjVlZjQ0Y2VmODY2ZjNhMmQyZjc1NmIzMyIsImlhdCI6MTc1OTMzNDkyN30.K_RIxaBTNvhGiID2uOTSFIOv7gaTQTE-YL1Sce9hyw4', // ¡IMPORTANTE! El token anterior ha expirado. Reemplázalo por uno nuevo.
+    AFFILIATE_API_TOKEN: 'TU_NUEVO_TOKEN_DE_API_VA_AQUI', // ¡IMPORTANTE! El token anterior ha expirado. Reemplázalo por uno nuevo.
     AFFILIATE_ID: '69fd3f065ef44cef866f3a2d2f756b33',
     STORAGE_KEYS: {
         USER: 'user_data'

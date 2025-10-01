@@ -25,7 +25,8 @@ module.exports = function(eleventyConfig) {
         dir: {
             includes: "_includes",
             input: ".",
-            output: "_site" // La carpeta donde se generará el sitio final
-        }
+            output: "_site"
+        },
+        pathPrefix: "/website/" // IMPORTANTE: Para que funcione en GitHub Pages
     };
 };

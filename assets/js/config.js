@@ -17,12 +17,30 @@ const CONFIG = {
     },
     // Mapeo para las categorías principales que se mostrarán en la home.
     CATEGORIES_MAPPING: {
-        'tecnologia': 'tecnologia',
-        'negocios': 'marketing-digital', // Apunta a una categoría más específica
-        'desarrollo-personal': 'productividad', // Apunta a una subcategoría relevante
-        'finanzas': 'finanzas-inversion', // Apunta a una categoría más específica
-        'cultura': 'cultura',
-        'idiomas': 'idiomas'
+        'tecnologia': {
+            type: 'category_code',
+            code: 'tecnologia'
+        },
+        'negocios': {
+            type: 'subcategory_code', // Usamos subcategoría para asegurar resultados
+            code: 'marketing-digital'
+        },
+        'desarrollo-personal': {
+            type: 'subcategory_code', // Usamos subcategoría para asegurar resultados
+            code: 'productividad'
+        },
+        'finanzas': {
+            type: 'subcategory_code', // Usamos subcategoría para asegurar resultados
+            code: 'finanzas-inversion'
+        },
+        'cultura': {
+            type: 'category_code',
+            code: 'cultura'
+        },
+        'idiomas': {
+            type: 'category_code',
+            code: 'idiomas'
+        }
     }
 };
 

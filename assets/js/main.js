@@ -189,11 +189,15 @@ function initializeCategoriesInteraction() {
             try {
                 let courses;
                 if (categoryKey) {
-                    // Lógica para categoría principal
-                    const apiCategoryCode = CONFIG.CATEGORIES_MAPPING[categoryKey];
-                    courses = await new API().getCourses({ category_code: apiCategoryCode, sort: '-popularity' });
+                    // Lógica para categoría principal desde la home
+                    const mapping = CONFIG.CATEGORIES_MAPPING[categoryKey];
+                    if (mapping) {
+                        const params = { sort: '-popularity' };
+                        params[mapping.type] = mapping.code; // Asigna dinámicamente category_code o subcategory_code
+                        courses = await new API().getCourses(params);
+                    }
                 } else if (subcategoryCode) {
-                    // Lógica para subcategoría
+                    // Lógica para subcategoría desde la sección "Explora por Subcategoría"
                     courses = await new API().getCourses({ subcategory_code: subcategoryCode, sort: '-popularity' });
                 }
                 displayCourses(courses, `Cursos de ${cardTitle}`);

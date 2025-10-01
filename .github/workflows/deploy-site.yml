@@ -1,0 +1,40 @@
+      name: Construir y Desplegar Sitio en GitHub Pages
+
+on:
+  # Se ejecuta cada vez que hay un push a la rama principal
+  push:
+    branches:
+      - main # Asegúrate que esta sea tu rama principal
+
+  # Permite ejecutar este flujo de trabajo manualmente desde la pestaña Actions
+  workflow_dispatch:
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 1. Checkout del repositorio
+        uses: actions/checkout@v3
+
+      - name: 2. Configurar Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+          cache: 'npm'
+
+      - name: 3. Instalar dependencias
+        run: npm install
+
+      - name: 4. Construir el sitio web
+        run: npx @11ty/eleventy
+
+      - name: 5. Configurar GitHub Pages
+        uses: actions/configure-pages@v3
+
+      - name: 6. Subir artefacto del sitio
+        uses: actions/upload-pages-artifact@v2
+        with:
+          path: '_site'
+
+      - name: 7. Desplegar en GitHub Pages
+        uses: actions/deploy-pages@v2

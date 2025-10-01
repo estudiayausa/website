@@ -98,8 +98,14 @@ async function loadCategories() {
                 let count = 0;
                 if (categoryKey && CONFIG.CATEGORIES_MAPPING) {
                     // Es una categoría principal
-                    const apiCategoryCode = CONFIG.CATEGORIES_MAPPING[categoryKey];
-                    count = categoryCountsMap.get(apiCategoryCode) || 0;
+                    const mapping = CONFIG.CATEGORIES_MAPPING[categoryKey];
+                    if (mapping) {
+                        if (mapping.type === 'category_code') {
+                            count = categoryCountsMap.get(mapping.code) || 0;
+                        } else if (mapping.type === 'subcategory_code') {
+                            count = subcategoryCountsMap.get(mapping.code) || 0;
+                        }
+                    }
                 } else if (subcategoryCode) {
                     // Es una subcategoría
                     count = subcategoryCountsMap.get(subcategoryCode) || 0;

@@ -45,29 +45,11 @@ export class API {
     }
 
     async getCourses(params = {}) {
-        // La API de Tutellus espera el parámetro 'category' para filtrar por categoría, no 'category_code'.
-        // Hacemos una copia de los parámetros para poder modificarlos sin afectar el objeto original.
-        const apiParams = { ...params };
-        if (apiParams.category_code) {
-            apiParams.category = apiParams.category_code;
-            delete apiParams.category_code; // Eliminamos el parámetro incorrecto.
-        }
         const searchParams = new URLSearchParams({
-            ...apiParams
+            ...params
         });
 
         return this.request(`${CONFIG.ENDPOINTS.COURSES}?${searchParams}`);
-    }
-
-    async getCoursesByCategory(category, params = {}) {
-        const mappedCategory = CONFIG.CATEGORIES_MAPPING[category];
-        if (!mappedCategory) {
-            // Return a resolved promise with an empty array for invalid categories
-            console.warn(`Invalid category requested: ${category}`);
-            throw new Error('Invalid category');
-        }
-        // Combinamos el código de categoría con otros parámetros opcionales (como 'sort')
-        return this.getCourses({ category_code: mappedCategory, ...params });
     }
 
     async getCourseById(id) {

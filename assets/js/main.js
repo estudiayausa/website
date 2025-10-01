@@ -90,14 +90,21 @@ async function loadCategories() {
 
         const categoryCards = document.querySelectorAll('.category-card');
         categoryCards.forEach(card => {
+            const categoryKey = card.dataset.category;
             const subcategoryCode = card.dataset.subcategoryCode;
             const courseCountElement = card.querySelector('.course-count');
 
-            if (courseCountElement && subcategoryCode) {
-                const count = subcategoryCountsMap.get(subcategoryCode) || 0;
+            if (courseCountElement) {
+                let count = 0;
+                if (categoryKey && CONFIG.CATEGORIES_MAPPING) {
+                    // Es una categoría principal
+                    const apiCategoryCode = CONFIG.CATEGORIES_MAPPING[categoryKey];
+                    count = categoryCountsMap.get(apiCategoryCode) || 0;
+                } else if (subcategoryCode) {
+                    // Es una subcategoría
+                    count = subcategoryCountsMap.get(subcategoryCode) || 0;
+                }
                 courseCountElement.textContent = `${count} ${count === 1 ? 'curso' : 'cursos'}`;
-            } else if (courseCountElement) {
-                courseCountElement.textContent = '0 cursos';
             }
         });
 
@@ -171,19 +178,28 @@ function initializeCategoriesInteraction() {
     categoryCards.forEach(card => {
         card.addEventListener('click', async (e) => {
             e.preventDefault(); // Previene el salto brusco del enlace
+            const categoryKey = card.dataset.category;
             const subcategoryCode = card.dataset.subcategoryCode;
-            const subcategoryName = card.querySelector('h3').textContent;
+            const cardTitle = card.querySelector('h3').textContent;
 
             // Muestra un estado de carga y se desplaza a la sección de cursos
-            displayCourses([], `Cargando cursos de ${subcategoryName}...`);
+            displayCourses([], `Cargando cursos de ${cardTitle}...`);
             document.getElementById('cursos').scrollIntoView({ behavior: 'smooth' });
 
             try {
-                const courses = await new API().getCourses({ subcategory_code: subcategoryCode, sort: '-popularity' });
-                displayCourses(courses, `Cursos de ${subcategoryName}`);
+                let courses;
+                if (categoryKey) {
+                    // Lógica para categoría principal
+                    const apiCategoryCode = CONFIG.CATEGORIES_MAPPING[categoryKey];
+                    courses = await new API().getCourses({ category_code: apiCategoryCode, sort: '-popularity' });
+                } else if (subcategoryCode) {
+                    // Lógica para subcategoría
+                    courses = await new API().getCourses({ subcategory_code: subcategoryCode, sort: '-popularity' });
+                }
+                displayCourses(courses, `Cursos de ${cardTitle}`);
             } catch (error) {
-                console.error(`Error al cargar cursos para la subcategoría ${subcategoryCode}:`, error);
-                displayCourses([], `Error al cargar cursos de ${subcategoryName}`);
+                console.error(`Error al cargar cursos para ${cardTitle}:`, error);
+                displayCourses([], `Error al cargar cursos de ${cardTitle}`);
             }
         });
     });

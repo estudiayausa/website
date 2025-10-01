@@ -15,6 +15,15 @@ const CONFIG = {
         REGISTER: '/register',
         PROFILE: '/profile'
     },
+    // Mapeo para las categorías principales que se mostrarán en la home.
+    CATEGORIES_MAPPING: {
+        'tecnologia': 'tecnologia',
+        'negocios': 'negocios',
+        'desarrollo-personal': 'desarrollo-personal',
+        'finanzas': 'finanzas',
+        'cultura': 'cultura',
+        'idiomas': 'idiomas'
+    }
 };
 
 export default CONFIG;

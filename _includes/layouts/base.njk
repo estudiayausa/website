@@ -4,10 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ title }} - EstudiaYa</title>
-    <link rel="stylesheet" href="/assets/css/style.css">
-    <link rel="stylesheet" href="/assets/css/responsive.css">
+    <link rel="stylesheet" href="{{ '/assets/css/style.css' | url }}">
+    <link rel="stylesheet" href="{{ '/assets/css/responsive.css' | url }}">
     {% if cssFile %}
-    <link rel="stylesheet" href="/assets/css/{{ cssFile }}">
+    <link rel="stylesheet" href="{{ '/assets/css/' ~ cssFile | url }}">
     {% endif %}
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@600;700&display=swap" rel="stylesheet">
@@ -16,16 +16,16 @@
     <!-- Header -->
     <header>
         <div class="container header-container">
-            <a href="/" class="logo">
+            <a href="{{ '/' | url }}" class="logo">
                 <i class="fas fa-graduation-cap"></i>
                 EstudiaYa
             </a>
             <nav>
                 <ul>
-                    <li><a href="/#cursos">Cursos</a></li>
-                    <li><a href="/carreras.html">Carreras</a></li>
-                    <li><a href="/#testimonios">Testimonios</a></li>
-                    <li><a href="/blog.html">Blog</a></li>
+                    <li><a href="{{ '/' | url }}#cursos">Cursos</a></li>
+                    <li><a href="{{ '/carreras.html' | url }}">Carreras</a></li>
+                    <li><a href="{{ '/' | url }}#testimonios">Testimonios</a></li>
+                    <li><a href="{{ '/blog.html' | url }}">Blog</a></li>
                 </ul>
             </nav>
             <div class="auth-buttons">
@@ -46,28 +46,28 @@
                 <div class="footer-column">
                     <h3>Sobre nosotros</h3>
                     <ul>
-                        <li><a href="/nuestra-mision.html">Nuestra misión</a></li>
-                        <li><a href="/equipo.html">Equipo</a></li>
-                        <li><a href="/trabaja-con-nosotros.html">Trabaja con nosotros</a></li>
-                        <li><a href="/prensa.html">Prensa</a></li>
+                        <li><a href="{{ '/nuestra-mision.html' | url }}">Nuestra misión</a></li>
+                        <li><a href="{{ '/equipo.html' | url }}">Equipo</a></li>
+                        <li><a href="{{ '/trabaja-con-nosotros.html' | url }}">Trabaja con nosotros</a></li>
+                        <li><a href="{{ '/prensa.html' | url }}">Prensa</a></li>
                     </ul>
                 </div>
                 <div class="footer-column">
                     <h3>Recursos</h3>
                     <ul>
-                        <li><a href="/blog.html">Blog</a></li>
-                        <li><a href="/guias-aprendizaje.html">Guías de aprendizaje</a></li>
-                        <li><a href="/webinars.html">Webinars</a></li>
-                        <li><a href="/foro.html">Foro</a></li>
+                        <li><a href="{{ '/blog.html' | url }}">Blog</a></li>
+                        <li><a href="{{ '/guias-aprendizaje.html' | url }}">Guías de aprendizaje</a></li>
+                        <li><a href="{{ '/webinars.html' | url }}">Webinars</a></li>
+                        <li><a href="{{ '/foro.html' | url }}">Foro</a></li>
                     </ul>
                 </div>
                 <div id="soporte" class="footer-column">
                     <h3>Soporte</h3>
                     <ul>
-                        <li><a href="/centro-ayuda.html">Centro de ayuda</a></li>
-                        <li><a href="/contacto.html">Contacto</a></li>
-                        <li><a href="/terminos-condiciones.html">Términos y condiciones</a></li>
-                        <li><a href="/politica-privacidad.html">Política de privacidad</a></li>
+                        <li><a href="{{ '/centro-ayuda.html' | url }}">Centro de ayuda</a></li>
+                        <li><a href="{{ '/contacto.html' | url }}">Contacto</a></li>
+                        <li><a href="{{ '/terminos-condiciones.html' | url }}">Términos y condiciones</a></li>
+                        <li><a href="{{ '/politica-privacidad.html' | url }}">Política de privacidad</a></li>
                     </ul>
                 </div>
             </div>

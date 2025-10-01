@@ -25,9 +25,9 @@ const CONFIG = {
             type: 'subcategory_code', // Apuntamos a Desarrollo Empresarial
             code: 'desarrollo-empresarial'
         },
-        'desarrollo-personal': {
-            type: 'subcategory_code', // Apuntamos a "Ocio y Vida" para asegurar resultados
-            code: 'ocio-vida'
+        'ia': {
+            type: 'subcategory_code', // Apuntamos a "Inteligencia Artificial"
+            code: 'inteligencia-artificial'
         },
         'finanzas': {
             type: 'subcategory_code', // Apuntamos a "Economía Familiar" para asegurar resultados

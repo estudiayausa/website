@@ -45,8 +45,15 @@ export class API {
     }
 
     async getCourses(params = {}) {
+        // La API de Tutellus espera el parámetro 'category' para filtrar por categoría, no 'category_code'.
+        // Hacemos una copia de los parámetros para poder modificarlos sin afectar el objeto original.
+        const apiParams = { ...params };
+        if (apiParams.category_code) {
+            apiParams.category = apiParams.category_code;
+            delete apiParams.category_code; // Eliminamos el parámetro incorrecto.
+        }
         const searchParams = new URLSearchParams({
-            ...params
+            ...apiParams
         });
 
         return this.request(`${CONFIG.ENDPOINTS.COURSES}?${searchParams}`);

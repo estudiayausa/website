@@ -26,8 +26,8 @@ const CONFIG = {
             code: 'desarrollo-empresarial'
         },
         'desarrollo-personal': {
-            type: 'subcategory_code', // Apuntamos a "Vida y Bienestar" para asegurar resultados
-            code: 'vida-bienestar'
+            type: 'subcategory_code', // Apuntamos a "Habilidades Emocionales" para asegurar resultados
+            code: 'habilidades-emocionales'
         },
         'finanzas': {
             type: 'subcategory_code', // Apuntamos a "Economía Familiar" para asegurar resultados

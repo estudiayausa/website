@@ -21,7 +21,7 @@ const CONFIG = {
         'tecnologia': 'tecnologia',         // Correcto
         'negocios': 'business',             // API usa 'business'
         'blockchain-y-ia': 'blockchain',    // Correcto
-        'emprendimiento': 'emprendimiento', // Correcto
+        'productividad': 'productividad',   // Nuevo: Mapeo para Productividad
         'cultura': 'cultura-y-humanidades', // API usa 'cultura-y-humanidades'
         'idiomas': 'idiomas'                // Correcto
     }

@@ -371,14 +371,22 @@ function showSuccess(message) {
 }
 
 // Inicialización cuando el DOM está listo
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', async function() {
     console.log('DOM cargado, inicializando componentes...');
-    // TODO: Implementar las siguientes funciones
+
+    // Inicializa componentes que no dependen de la API primero
     initializeCarousels();
     initializeNewsletter();
     initializeSearch();
-    loadFeaturedCourses();
-    loadCategories();
-    loadAllSubcategories();
+
+    // Carga todo el contenido que depende de la API de forma asíncrona
+    // y espera a que termine antes de hacer los elementos interactivos.
+    await Promise.all([
+        loadFeaturedCourses(),
+        loadCategories(),
+        loadAllSubcategories() // Esta función ya llama a initializeSubcategoriesInteraction() al terminar
+    ]);
+
+    // Ahora que todo está cargado, inicializamos la interacción de las categorías principales.
     initializeCategoriesInteraction();
 });

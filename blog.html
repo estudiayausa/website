@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Catálogo de Cursos - EstudiaYa</title>
+    <title>Blog - EstudiaYa</title>
     <link rel="stylesheet" href="assets/css/style.css">
-    <link rel="stylesheet" href="assets/css/catalogo.css">
+    <link rel="stylesheet" href="assets/css/blog.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@600;700&display=swap" rel="stylesheet">
 </head>
@@ -32,47 +32,52 @@
         </div>
     </header>
 
-    <main class="catalog-page">
+    <main class="blog-page">
         <div class="container">
-            <div class="catalog-header">
-                <h1 class="section-title">Catálogo de Cursos</h1>
-                <p class="section-subtitle">Encuentra tu próximo curso y empieza a aprender hoy.</p>
-            </div>
-            <div class="catalog-layout">
-                <aside class="filters-sidebar">
-                    <h2>Filtros</h2>
-                    <div class="filter-group">
-                        <h4>Buscar por nombre</h4>
-                        <input type="text" id="filter-search" placeholder="Ej: Python, Marketing...">
-                    </div>
-                    <div class="filter-group">
-                        <h4>Ordenar por</h4>
-                        <select id="filter-sort">
-                            <option value="-popularity">Más populares</option>
-                            <option value="-reviews_avg">Mejor valorados</option>
-                            <option value="-publish_date">Más nuevos</option>
-                        </select>
-                    </div>
-                    <div class="filter-group">
-                        <h4>Categoría</h4>
-                        <select id="filter-category">
-                            <option value="">Todas las categorías</option>
-                            <!-- Opciones se cargarán con JS -->
-                        </select>
-                    </div>
-                    <div class="filter-group">
-                        <h4>Nivel de Dificultad</h4>
-                        <div id="filter-difficulty">
-                            <!-- Opciones se cargarán con JS -->
+            <h1 class="section-title">Nuestro Blog</h1>
+            <p class="section-subtitle">Consejos, tutoriales y noticias del mundo del aprendizaje en línea.</p>
+
+            <div class="blog-grid">
+                <!-- Post 1 -->
+                <div class="blog-card">
+                    <a href="#" class="blog-card-image" style="background-image: url('https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=2070&auto=format&fit=crop');"></a>
+                    <div class="blog-card-content">
+                        <a href="#" class="blog-category">Productividad</a>
+                        <h3 class="blog-title"><a href="#">7 técnicas de estudio para aprender más rápido</a></h3>
+                        <p class="blog-excerpt">Descubre métodos probados científicamente para mejorar tu retención y aprovechar al máximo tus horas de estudio.</p>
+                        <div class="blog-author">
+                            <img src="https://picsum.photos/seed/author1/40/40" alt="Autor">
+                            <span>Ana García</span>
                         </div>
                     </div>
-                    <button id="apply-filters-btn" class="btn btn-primary">Aplicar Filtros</button>
-                </aside>
-                <div id="catalog-container" class="courses-results">
-                    <div class="loading">
-                        <div class="spinner"></div>
+                </div>
+                <!-- Post 2 -->
+                <div class="blog-card">
+                    <a href="#" class="blog-card-image" style="background-image: url('https://images.unsplash.com/photo-1611095562057-2e7012892e3c?q=80&w=2070&auto=format&fit=crop');"></a>
+                    <div class="blog-card-content">
+                        <a href="#" class="blog-category">Carrera</a>
+                        <h3 class="blog-title"><a href="#">Cómo construir un portafolio que impresione a los reclutadores</a></h3>
+                        <p class="blog-excerpt">Tu portafolio es tu mejor carta de presentación. Te mostramos qué incluir y cómo estructurarlo para destacar.</p>
+                        <div class="blog-author">
+                            <img src="https://picsum.photos/seed/author2/40/40" alt="Autor">
+                            <span>Luis Hernandez</span>
+                        </div>
                     </div>
                 </div>
+                <!-- Post 3 -->
+                <div class="blog-card">
+                    <a href="#" class="blog-card-image" style="background-image: url('https://images.unsplash.com/photo-1674027444485-cec3da58eef4?q=80&w=1932&auto=format&fit=crop');"></a>
+                    <div class="blog-card-content">
+                        <a href="#" class="blog-category">Tecnología</a>
+                        <h3 class="blog-title"><a href="#">Introducción a la Inteligencia Artificial Generativa</a></h3>
+                        <p class="blog-excerpt">¿Qué es la IA Generativa y por qué está en boca de todos? Te lo explicamos de forma sencilla y con ejemplos prácticos.</p>
+                        <div class="blog-author">
+                            <img src="https://picsum.photos/seed/author3/40/40" alt="Autor">
+                            <span>Carla Rossi</span>
+                        </div>
+                    </div>
+                </div>
+                <!-- Puedes añadir más posts aquí -->
             </div>
         </div>
     </main>
@@ -108,22 +113,11 @@
                         <li><a href="#">Política de privacidad</a></li>
                     </ul>
                 </div>
-                <div class="footer-column">
-                    <h3>Síguenos</h3>
-                    <div class="social-links">
-                        <a href="#"><i class="fab fa-facebook-f"></i></a>
-                        <a href="#"><i class="fab fa-twitter"></i></a>
-                        <a href="#"><i class="fab fa-instagram"></i></a>
-                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
-                    </div>
-                </div>
             </div>
             <div class="footer-bottom">
                 <p>&copy; 2023 EstudiaYa. Todos los derechos reservados.</p>
             </div>
         </div>
     </footer>
-
-    <script type="module" src="assets/js/catalogo.js"></script>
 </body>
 </html>

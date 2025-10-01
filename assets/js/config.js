@@ -22,8 +22,8 @@ const CONFIG = {
             code: 'tecnologia'
         },
         'negocios': {
-            type: 'subcategory_code', // Usamos subcategoría para asegurar resultados
-            code: 'marketing-digital'
+            type: 'subcategory_code', // Apuntamos a Desarrollo Empresarial
+            code: 'desarrollo-empresarial'
         },
         'desarrollo-personal': {
             type: 'subcategory_code', // Usamos subcategoría para asegurar resultados

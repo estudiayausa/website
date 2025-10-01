@@ -86,15 +86,15 @@ async function loadCategories() {
 
         // Creamos un mapa para buscar fácilmente el conteo por el código de la API
         const categoryCountsMap = new Map(allApiCategories.map(cat => [cat.code, cat.courses || 0]));
+        const subcategoryCountsMap = new Map(allApiCategories.flatMap(cat => cat.subcategories || []).map(sub => [sub.code, sub.courses || 0]));
 
         const categoryCards = document.querySelectorAll('.category-card');
         categoryCards.forEach(card => {
-            const categoryKey = card.dataset.category; // ej: 'desarrollo-web'
-            const apiCategoryCode = CONFIG.CATEGORIES_MAPPING[categoryKey]; // ej: 'programacion'
+            const subcategoryCode = card.dataset.subcategoryCode;
             const courseCountElement = card.querySelector('.course-count');
 
-            if (courseCountElement && apiCategoryCode) {
-                const count = categoryCountsMap.get(apiCategoryCode) || 0;
+            if (courseCountElement && subcategoryCode) {
+                const count = subcategoryCountsMap.get(subcategoryCode) || 0;
                 courseCountElement.textContent = `${count} ${count === 1 ? 'curso' : 'cursos'}`;
             } else if (courseCountElement) {
                 courseCountElement.textContent = '0 cursos';
@@ -167,22 +167,23 @@ function initializeSubcategoriesInteraction() {
 // Función para que las tarjetas de categoría sean interactivas
 function initializeCategoriesInteraction() {
     const categoryCards = document.querySelectorAll('.category-card');
+
     categoryCards.forEach(card => {
         card.addEventListener('click', async (e) => {
             e.preventDefault(); // Previene el salto brusco del enlace
-            const category = card.dataset.category;
-            const categoryTitle = card.querySelector('h3').textContent;
+            const subcategoryCode = card.dataset.subcategoryCode;
+            const subcategoryName = card.querySelector('h3').textContent;
 
             // Muestra un estado de carga y se desplaza a la sección de cursos
-            displayCourses([], `Cargando cursos de ${categoryTitle}...`);
+            displayCourses([], `Cargando cursos de ${subcategoryName}...`);
             document.getElementById('cursos').scrollIntoView({ behavior: 'smooth' });
 
             try {
-                const courses = await new API().getCoursesByCategory(category, { sort: '-price' });
-                displayCourses(courses, `Cursos de ${categoryTitle}`);
+                const courses = await new API().getCourses({ subcategory_code: subcategoryCode, sort: '-popularity' });
+                displayCourses(courses, `Cursos de ${subcategoryName}`);
             } catch (error) {
-                console.error(`Error al cargar cursos para la categoría ${category}:`, error);
-                displayCourses([], `Error al cargar cursos de ${categoryTitle}`);
+                console.error(`Error al cargar cursos para la subcategoría ${subcategoryCode}:`, error);
+                displayCourses([], `Error al cargar cursos de ${subcategoryName}`);
             }
         });
     });

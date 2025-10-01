@@ -15,16 +15,6 @@ const CONFIG = {
         REGISTER: '/register',
         PROFILE: '/profile'
     },
-    // Mapea los data-category del HTML a los slugs/IDs que espera la API de Tutellus.
-    // Estos son ejemplos, ajústalos si la API requiere otros valores.
-    CATEGORIES_MAPPING: {
-        'tecnologia': 'tecnologia',         // Correcto
-        'negocios': 'business',             // API usa 'business'
-        'blockchain-y-ia': 'blockchain',    // Correcto
-        'productividad': 'productividad',   // Nuevo: Mapeo para Productividad
-        'cultura': 'cultura-y-humanidades', // API usa 'cultura-y-humanidades'
-        'idiomas': 'idiomas'                // Correcto
-    }
 };
 
 export default CONFIG;

@@ -18,9 +18,9 @@ const CONFIG = {
     // Mapeo para las categorías principales que se mostrarán en la home.
     CATEGORIES_MAPPING: {
         'tecnologia': 'tecnologia',
-        'negocios': 'negocios',
-        'desarrollo-personal': 'desarrollo-personal',
-        'finanzas': 'finanzas',
+        'negocios': 'marketing-digital', // Apunta a una categoría más específica
+        'desarrollo-personal': 'productividad', // Apunta a una subcategoría relevante
+        'finanzas': 'finanzas-inversion', // Apunta a una categoría más específica
         'cultura': 'cultura',
         'idiomas': 'idiomas'
     }

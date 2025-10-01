@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Catálogo de Cursos - EstudiaYa</title>
+    <title>Nuestra Misión - EstudiaYa</title>
     <link rel="stylesheet" href="assets/css/style.css">
-    <link rel="stylesheet" href="assets/css/catalogo.css">
+    <link rel="stylesheet" href="assets/css/static-page.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@600;700&display=swap" rel="stylesheet">
 </head>
@@ -32,47 +32,21 @@
         </div>
     </header>
 
-    <main class="catalog-page">
+    <main class="static-page">
         <div class="container">
-            <div class="catalog-header">
-                <h1 class="section-title">Catálogo de Cursos</h1>
-                <p class="section-subtitle">Encuentra tu próximo curso y empieza a aprender hoy.</p>
-            </div>
-            <div class="catalog-layout">
-                <aside class="filters-sidebar">
-                    <h2>Filtros</h2>
-                    <div class="filter-group">
-                        <h4>Buscar por nombre</h4>
-                        <input type="text" id="filter-search" placeholder="Ej: Python, Marketing...">
-                    </div>
-                    <div class="filter-group">
-                        <h4>Ordenar por</h4>
-                        <select id="filter-sort">
-                            <option value="-popularity">Más populares</option>
-                            <option value="-reviews_avg">Mejor valorados</option>
-                            <option value="-publish_date">Más nuevos</option>
-                        </select>
-                    </div>
-                    <div class="filter-group">
-                        <h4>Categoría</h4>
-                        <select id="filter-category">
-                            <option value="">Todas las categorías</option>
-                            <!-- Opciones se cargarán con JS -->
-                        </select>
-                    </div>
-                    <div class="filter-group">
-                        <h4>Nivel de Dificultad</h4>
-                        <div id="filter-difficulty">
-                            <!-- Opciones se cargarán con JS -->
-                        </div>
-                    </div>
-                    <button id="apply-filters-btn" class="btn btn-primary">Aplicar Filtros</button>
-                </aside>
-                <div id="catalog-container" class="courses-results">
-                    <div class="loading">
-                        <div class="spinner"></div>
-                    </div>
-                </div>
+            <h1 class="section-title">Nuestra Misión</h1>
+            <div class="static-content">
+                <p>En EstudiaYa, nuestra misión es democratizar el acceso a la educación de alta calidad, permitiendo que cualquier persona, sin importar su ubicación o sus recursos, pueda desarrollar nuevas habilidades, impulsar su carrera profesional y alcanzar su máximo potencial.</p>
+                <p>Creemos firmemente en el poder del aprendizaje continuo como motor de cambio personal y social. Por eso, nos esforzamos en crear una plataforma intuitiva, accesible y enriquecedora, que conecte a estudiantes apasionados con los mejores instructores y el contenido más relevante del mercado.</p>
+                
+                <h2>Nuestros Valores</h2>
+                <ul>
+                    <li><strong>Calidad:</strong> Nos comprometemos a ofrecer cursos y carreras con contenido riguroso, actualizado y práctico, diseñado por expertos en cada industria.</li>
+                    <li><strong>Accesibilidad:</strong> Queremos eliminar las barreras al aprendizaje. Nuestra plataforma está diseñada para ser fácil de usar y nuestros precios son competitivos para llegar a la mayor cantidad de personas.</li>
+                    <li><strong>Comunidad:</strong> Fomentamos un entorno de aprendizaje colaborativo donde estudiantes, instructores y exalumnos pueden conectar, compartir conocimientos y crecer juntos.</li>
+                    <li><strong>Innovación:</strong> Estamos en constante búsqueda de nuevas tecnologías y metodologías pedagógicas para mejorar la experiencia de aprendizaje y mantener nuestra oferta a la vanguardia.</li>
+                </ul>
+                <p>Aspiramos a ser el compañero de confianza en el viaje educativo de millones de personas en todo el mundo, ayudándoles a construir el futuro que desean.</p>
             </div>
         </div>
     </main>
@@ -108,22 +82,11 @@
                         <li><a href="#">Política de privacidad</a></li>
                     </ul>
                 </div>
-                <div class="footer-column">
-                    <h3>Síguenos</h3>
-                    <div class="social-links">
-                        <a href="#"><i class="fab fa-facebook-f"></i></a>
-                        <a href="#"><i class="fab fa-twitter"></i></a>
-                        <a href="#"><i class="fab fa-instagram"></i></a>
-                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
-                    </div>
-                </div>
             </div>
             <div class="footer-bottom">
                 <p>&copy; 2023 EstudiaYa. Todos los derechos reservados.</p>
             </div>
         </div>
     </footer>
-
-    <script type="module" src="assets/js/catalogo.js"></script>
 </body>
 </html>

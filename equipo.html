@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Catálogo de Cursos - EstudiaYa</title>
+    <title>Nuestro Equipo - EstudiaYa</title>
     <link rel="stylesheet" href="assets/css/style.css">
-    <link rel="stylesheet" href="assets/css/catalogo.css">
+    <link rel="stylesheet" href="assets/css/static-page.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@600;700&display=swap" rel="stylesheet">
 </head>
@@ -32,47 +32,15 @@
         </div>
     </header>
 
-    <main class="catalog-page">
+    <main class="static-page">
         <div class="container">
-            <div class="catalog-header">
-                <h1 class="section-title">Catálogo de Cursos</h1>
-                <p class="section-subtitle">Encuentra tu próximo curso y empieza a aprender hoy.</p>
-            </div>
-            <div class="catalog-layout">
-                <aside class="filters-sidebar">
-                    <h2>Filtros</h2>
-                    <div class="filter-group">
-                        <h4>Buscar por nombre</h4>
-                        <input type="text" id="filter-search" placeholder="Ej: Python, Marketing...">
-                    </div>
-                    <div class="filter-group">
-                        <h4>Ordenar por</h4>
-                        <select id="filter-sort">
-                            <option value="-popularity">Más populares</option>
-                            <option value="-reviews_avg">Mejor valorados</option>
-                            <option value="-publish_date">Más nuevos</option>
-                        </select>
-                    </div>
-                    <div class="filter-group">
-                        <h4>Categoría</h4>
-                        <select id="filter-category">
-                            <option value="">Todas las categorías</option>
-                            <!-- Opciones se cargarán con JS -->
-                        </select>
-                    </div>
-                    <div class="filter-group">
-                        <h4>Nivel de Dificultad</h4>
-                        <div id="filter-difficulty">
-                            <!-- Opciones se cargarán con JS -->
-                        </div>
-                    </div>
-                    <button id="apply-filters-btn" class="btn btn-primary">Aplicar Filtros</button>
-                </aside>
-                <div id="catalog-container" class="courses-results">
-                    <div class="loading">
-                        <div class="spinner"></div>
-                    </div>
-                </div>
+            <h1 class="section-title">Nuestro Equipo</h1>
+            <div class="static-content">
+                <p>Detrás de EstudiaYa hay un grupo diverso de educadores, tecnólogos, diseñadores y soñadores apasionados por transformar la educación. Nos une la creencia de que el conocimiento es la herramienta más poderosa para el cambio.</p>
+                
+                <!-- Aquí puedes añadir una sección para el equipo -->
+                <p>Próximamente presentaremos a los miembros clave de nuestro equipo. ¡Estamos trabajando para que conozcas a las personas que hacen posible EstudiaYa!</p>
+
             </div>
         </div>
     </main>
@@ -123,7 +91,5 @@
             </div>
         </div>
     </footer>
-
-    <script type="module" src="assets/js/catalogo.js"></script>
 </body>
 </html>

@@ -1,0 +1,37 @@
+name: Generar Artículo Diario
+
+on:
+  # Permite ejecutar este flujo de trabajo manualmente desde la pestaña Actions
+  workflow_dispatch:
+
+  # Ejecuta el flujo de trabajo todos los días a las 5 AM UTC
+  schedule:
+    - cron: '0 5 * * *'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 1. Checkout del repositorio
+        uses: actions/checkout@v3
+
+      - name: 2. Configurar Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+
+      - name: 3. Instalar dependencias
+        run: npm install
+
+      - name: 4. Ejecutar el script de creación de artículos
+        run: node create-article.js
+        # env:
+        #   AI_API_KEY: ${{ secrets.AI_API_KEY }} # Así se usaría un secreto en el futuro
+
+      - name: 5. Hacer commit y push del nuevo artículo
+        uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          commit_message: '🤖 feat: Nuevo artículo generado automáticamente'
+          branch: main # Asegúrate que esta sea tu rama principal (puede ser 'master')
+          file_pattern: 'posts/*.md'

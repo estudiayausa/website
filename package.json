@@ -1,0 +1,28 @@
+{
+  "name": "website",
+  "version": "1.0.0",
+  "description": "EstudiaYa es una plataforma educativa que ofrece cursos de calidad para impulsar tu carrera. Conectamos estudiantes con instructores expertos en diversas áreas.",
+  "main": ".eleventy.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/estudiayausa/website.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/estudiayausa/website/issues"
+  },
+  "homepage": "https://github.com/estudiayausa/website#readme",
+  "devDependencies": {
+    "@11ty/eleventy": "^3.1.2",
+    "luxon": "^3.7.2"
+  },
+  "dependencies": {
+    "axios": "^1.7.2"
+  }
+}

@@ -1,0 +1,11 @@
+/* Estilos para la página del catálogo de carreras */
+.careers-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 2rem;
+}
+
+.careers-grid .career-card {
+    flex: none; /* Anula el flex-basis del carrusel */
+    margin: 0; /* Anula los márgenes del carrusel */
+}

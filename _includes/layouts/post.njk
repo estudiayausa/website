@@ -1,0 +1,31 @@
+---
+layout: layouts/base.njk
+title: "{{ title }}"
+cssFile: "blog-post.css"
+---
+
+<div class="post-page">
+    <article class="container">
+        <header class="post-header">
+            <a href="/blog.html" class="back-to-blog"><i class="fas fa-arrow-left"></i> Volver al Blog</a>
+            <div class="post-category">{{ category }}</div>
+            <h1 class="post-title">{{ title }}</h1>
+            <div class="post-meta">
+                <div class="author-info">
+                    <img src="{{ author_avatar }}" alt="{{ author }}" class="author-avatar">
+                    <span>Por <strong>{{ author }}</strong></span>
+                </div>
+                <span class="post-date">Publicado el {{ page.date | readableDate }}</span>
+            </div>
+        </header>
+
+        <div class="post-image-container">
+            <img src="{{ image }}" alt="{{ image_alt }}">
+        </div>
+
+                        <li><a href="contacto.html">Contacto</a></li>
+        <div class="post-content">
+            {{ content | safe }}
+        </div>
+    </article>
+</div>

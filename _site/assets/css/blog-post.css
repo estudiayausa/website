@@ -1,0 +1,99 @@
+.post-page {
+    padding: 60px 0;
+    background-color: var(--white);
+}
+
+.post-page article.container {
+    max-width: 800px;
+}
+
+.post-header {
+    margin-bottom: 2rem;
+    text-align: center;
+}
+
+.back-to-blog {
+    display: inline-block;
+    margin-bottom: 1.5rem;
+    color: var(--gray);
+    font-weight: 500;
+}
+
+.back-to-blog:hover {
+    color: var(--primary-blue);
+}
+
+.back-to-blog i {
+    margin-right: 0.5rem;
+}
+
+.post-category {
+    color: var(--primary-blue);
+    font-weight: 600;
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+}
+
+.post-title {
+    font-size: 2.5rem;
+    line-height: 1.2;
+    margin-bottom: 1.5rem;
+}
+
+.post-meta {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1.5rem;
+    color: var(--gray);
+    flex-wrap: wrap;
+}
+
+.post-meta .author-info {
+    display: flex;
+    align-items: center;
+}
+
+.author-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin-right: 0.75rem;
+}
+
+.post-image-container {
+    margin-bottom: 3rem;
+    border-radius: 0.75rem;
+    overflow: hidden;
+    box-shadow: var(--shadow-lg);
+}
+
+.post-image-container img {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+.post-content {
+    font-size: 1.1rem;
+    line-height: 1.8;
+}
+
+.post-content p {
+    margin-bottom: 1.5rem;
+}
+
+.post-content h2 {
+    font-size: 1.8rem;
+    margin-top: 3rem;
+    margin-bottom: 1.5rem;
+}
+
+.post-content blockquote {
+    margin: 2rem 0;
+    padding-left: 1.5rem;
+    border-left: 4px solid var(--primary-blue);
+    font-style: italic;
+    color: var(--gray);
+    font-size: 1.2rem;
+}

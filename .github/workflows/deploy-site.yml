@@ -30,12 +30,12 @@ jobs:
         # El --pathprefix es CRUCIAL para GitHub Pages
 
       - name: 5. Configurar GitHub Pages
-        uses: actions/configure-pages@v3
+        uses: actions/configure-pages@v5
 
       - name: 6. Subir artefacto del sitio
-        uses: actions/upload-pages-artifact@v2
+        uses: actions/upload-pages-artifact@v3
         with:
           path: '_site'
 
       - name: 7. Desplegar en GitHub Pages
-        uses: actions/deploy-pages@v2
+        uses: actions/deploy-pages@v4

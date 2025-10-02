@@ -26,6 +26,7 @@ module.exports = function(eleventyConfig) {
             includes: "_includes",
             input: ".",
             output: "_site"
-        }
+        },
+        pathPrefix: "/website/" // IMPORTANTE: Para que funcione en GitHub Pages
     };
 };

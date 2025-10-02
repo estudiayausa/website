@@ -30,8 +30,7 @@ jobs:
         run: npm install
 
       - name: 4. Construir el sitio web
-        run: npx @11ty/eleventy --pathprefix=/website/
-        # El --pathprefix es CRUCIAL para GitHub Pages
+        run: npx @11ty/eleventy
 
       - name: 5. Configurar GitHub Pages
         uses: actions/configure-pages@v5

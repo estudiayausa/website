@@ -7,7 +7,7 @@ module.exports = function(eleventyConfig) {
     ]);
 
     // Copia la carpeta 'assets' al directorio de salida
-    eleventyConfig.addPassthroughCopy("assets");
+    eleventyConfig.addPassthroughCopy({ "assets": "assets" });
 
     // Crea una colección 'post', que ordena todos los artículos por fecha descendente
     eleventyConfig.addCollection("post", function (collectionApi) {

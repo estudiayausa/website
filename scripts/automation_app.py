@@ -31,78 +31,70 @@ PILAR_LIST = [
     "Ruso", "Recetas", "Servicio en sala", "Bebidas y"
 ]
 
-# PASO 1: Definir los 6 Freebies (Lead Magnets) principales
-# **IMPORTANTE: DEBES REEMPLAZAR LAS URL DE EJEMPLO POR LAS URL REALES DE TUS PÁGINAS DE CAPTURA.**
-FREEBIE_MAP = {
-    # GRUPO 1: TECNOLOGÍA Y DESARROLLO
-    "freebie1_tech": {
+# Paso 1: Definir los 6 Freebies principales con sus claves únicas.
+CORE_FREEBIES = {
+    "tech": {
         "nombre": "Checklist: Herramientas Esenciales de IA y Desarrollo",
         "url": "https://estudiayausa.github.io/website/opt-in/?freebie=tech_essentials" 
     },
-    # GRUPO 2: NEGOCIOS Y MARKETING
-    "freebie2_mkt": {
+    "mkt": {
         "nombre": "Plantilla: Plan de Marketing y Ventas de 30 Días",
         "url": "https://estudiayausa.github.io/website/opt-in/?freebie=mkt_plan"
     },
-    # GRUPO 3: HABILIDADES BLANDAS Y PERSONALES
-    "freebie3_pers": {
+    "pers": {
         "nombre": "Guía: 5 Pasos para Dominar Nuevas Habilidades y Concentración",
         "url": "https://estudiayausa.github.io/website/opt-in/?freebie=soft_skills"
     },
-    # GRUPO 4: FINANZAS Y EMPRENDIMIENTO
-    "freebie4_fin": {
+    "fin": {
         "nombre": "Ebook: Introducción a Inversiones Inteligentes y Economía Personal",
         "url": "https://estudiayausa.github.io/website/opt-in/?freebie=fin_trading"
     },
-    # GRUPO 5: ARTE, DISEÑO Y CREACIÓN
-    "freebie5_art": {
+    "art": {
         "nombre": "Kit de Recursos: Guía Rápida de Diseño y Postproducción",
         "url": "https://estudiayausa.github.io/website/opt-in/?freebie=creative_kit"
     },
-    # GRUPO 6: CIENCIAS, SALUD Y ESTILOS DE VIDA
-    "freebie6_sci": {
+    "sci": {
         "nombre": "Recursos: Checklist de Bienestar y Hábitos Saludables",
         "url": "https://estudiayausa.github.io/website/opt-in/?freebie=salud_vida"
     }
 }
 
-# PASO 2: Mapear todas las categorías a los 6 Freebies (ESTE CÓDIGO SE CORRIGIÓ)
-# Usa un nuevo diccionario para el mapeo final y así evitar el NameError original.
-FINAL_FREEBIE_MAP = {}
+# Paso 2: Crear el diccionario final FREEBIE_MAP usando las claves de CORE_FREEBIES.
+FREEBIE_MAP = {}
 
 # Función de ayuda para el mapeo
 def map_pillars(pillars, key):
     for pilar in pillars:
-        FINAL_FREEBIE_MAP[pilar] = FREEBIE_MAP[key]
+        FREEBIE_MAP[pilar] = CORE_FREEBIES[key]
 
 # --- MAPEANDO POR GRUPOS TEMÁTICOS ---
+# Esto ahora usa CORE_FREEBIES[] para mapear los pilares al valor del freebie.
 
 # GRUPO 1: TECNOLOGÍA Y DESARROLLO
-tech_pillars = ["Desarrollo Web", "Software", "Bases de datos", "Blockchain", "Desarrollo APP", "Videojuegos", "Big Data", "Hardware", "Inteligencia artificial", "Informática", "Ofimatica", "Software de gestión", "WordPress y CMS", "Inglés"] # Incluyendo idiomas técnicos como 'Inglés'
-map_pillars(tech_pillars, "freebie1_tech")
+tech_pillars = ["Desarrollo Web", "Software", "Bases de datos", "Blockchain", "Desarrollo APP", "Videojuegos", "Big Data", "Hardware", "Inteligencia artificial", "Informática", "Ofimatica", "Software de gestión", "WordPress y CMS", "Inglés"]
+map_pillars(tech_pillars, "tech")
 
 # GRUPO 2: NEGOCIOS Y MARKETING
 mkt_pillars = ["Ecommerce", "Emprender", "Marketing", "Ventas", "Social Media", "SEO y SEM", "Promoción y distribución", "Mercadotecnia", "Desarrollo empresarial"]
-map_pillars(mkt_pillars, "freebie2_mkt")
+map_pillars(mkt_pillars, "mkt")
 
 # GRUPO 3: HABILIDADES BLANDAS Y PERSONALES
 pers_pillars = ["Coaching", "Habilidades Emocionales", "Desarrollo Personal", "PNL", "Escritores", "Lengua de signos", "Otros", "Educacion"]
-map_pillars(pers_pillars, "freebie3_pers")
+map_pillars(pers_pillars, "pers")
 
 # GRUPO 4: FINANZAS Y ECONOMÍA
 fin_pillars = ["Finanzas y Trading", "Economía familiar", "Economía", "Sociología", "Derecho", "Historia", "Teología", "Matemáticas"]
-map_pillars(fin_pillars, "freebie4_fin")
+map_pillars(fin_pillars, "fin")
 
 # GRUPO 5: ARTE, DISEÑO Y CREACIÓN
-art_pillars = ["Animación y 3D", "Infoarquitectura 3D", "Diseño Gráfico", "Video y Postproducción", "Fotografía", "Ilustración", "Manualidades", "Hobbies", "Estilismo", "Música", "Arte", "Literatura", "Baile", "Cine", "Canto", "Italiano", "Japonés", "Alemán", "Portugués", "Árabe", "Francés", "Chino", "Ruso", "Español"] # Incluyendo idiomas y creación
-map_pillars(art_pillars, "freebie5_art")
+art_pillars = ["Animación y 3D", "Infoarquitectura 3D", "Diseño Gráfico", "Video y Postproducción", "Fotografía", "Ilustración", "Manualidades", "Hobbies", "Estilismo", "Música", "Arte", "Literatura", "Baile", "Cine", "Canto", "Italiano", "Japonés", "Alemán", "Portugués", "Árabe", "Francés", "Chino", "Ruso", "Español"]
+map_pillars(art_pillars, "art")
 
 # GRUPO 6: CIENCIAS, SALUD Y ESTILOS DE VIDA
 sci_pillars = ["Deportes", "Salud", "Relax y Bienestar", "Vida saludable", "Yoga y Pilates", "Puericultura", "Familia y Amigos", "Ocio", "Viajes", "Medio Ambiente", "Agricultura", "Naturaleza", "Ganadería", "Medicina", "Ingenierías", "Física", "Biología", "Quimica", "Recetas", "Servicio en sala", "Bebidas y"]
-map_pillars(sci_pillars, "freebie6_sci")
+map_pillars(sci_pillars, "sci")
+# ---------------------------------------------
 
-
-# La función de obtención usará el mapeo FINAL
 def choose_pilar():
     """Elige un pilar de contenido al azar."""
     return random.choice(PILAR_LIST)
@@ -143,8 +135,8 @@ def build_markdown_file(pilar, json_data):
     today = datetime.datetime.now().strftime("%Y-%m-%d")
     freebie_default = {"nombre": "Guía General de Aprendizaje", "url": "https://estudiayausa.github.io/website/opt-in/?freebie=default"}
     
-    # *** USAR EL DICCIONARIO FINAL_FREEBIE_MAP ***
-    freebie_info = FINAL_FREEBIE_MAP.get(pilar, freebie_default) 
+    # Usa el diccionario FREEBIE_MAP corregido
+    freebie_info = FREEBIE_MAP.get(pilar, freebie_default) 
     
     # 2. Construir el Front Matter y Contenido
     markdown_content = f"""---

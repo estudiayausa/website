@@ -198,7 +198,7 @@ def publish_reddit_post(json_data):
         body = json_data['extracto'] + " ¡Link en los comentarios!"
 
     # 2. Publicar el Post
-    subreddit_name = "Estudia-Ya" 
+    subreddit_name = "EstudiaYa" 
     subreddit = reddit.subreddit(subreddit_name)
     new_post = subreddit.submit(title.strip(), selftext=body.strip())
     

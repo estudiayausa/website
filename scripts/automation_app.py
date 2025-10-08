@@ -31,33 +31,78 @@ PILAR_LIST = [
     "Ruso", "Recetas", "Servicio en sala", "Bebidas y"
 ]
 
-# Mapeo de Freebies: ASOCIA los pilares a los freebies que ya tienes creados.
-# Usa un freebie 'default' si un pilar no está en la lista.
+# PASO 1: Definir los 6 Freebies (Lead Magnets) principales
+# **IMPORTANTE: DEBES REEMPLAZAR LAS URL DE EJEMPLO POR LAS URL REALES DE TUS PÁGINAS DE CAPTURA.**
 FREEBIE_MAP = {
-    # --- EJEMPLOS INICIALES (DEBES COMPLETAR ESTO) ---
-    "Inteligencia artificial": {
-        "nombre": "Checklist: 10 Herramientas Esenciales de IA",
-        "url": "https://estudiayausa.github.io/website/opt-in/?freebie=ai"
+    # GRUPO 1: TECNOLOGÍA Y DESARROLLO
+    "freebie1_tech": {
+        "nombre": "Checklist: Herramientas Esenciales de IA y Desarrollo",
+        "url": "https://estudiayausa.github.io/website/opt-in/?freebie=tech_essentials" 
     },
-    "Marketing": {
-        "nombre": "Plantilla: Calendario de Contenidos 2026",
-        "url": "https://estudiayausa.github.io/website/opt-in/?freebie=marketing"
+    # GRUPO 2: NEGOCIOS Y MARKETING
+    "freebie2_mkt": {
+        "nombre": "Plantilla: Plan de Marketing y Ventas de 30 Días",
+        "url": "https://estudiayausa.github.io/website/opt-in/?freebie=mkt_plan"
     },
-    "Desarrollo Web": {
-        "nombre": "Guía: 5 Pasos para un Portfolio Web Perfecto",
-        "url": "https://estudiayausa.github.io/website/opt-in/?freebie=webdev"
+    # GRUPO 3: HABILIDADES BLANDAS Y PERSONALES
+    "freebie3_pers": {
+        "nombre": "Guía: 5 Pasos para Dominar Nuevas Habilidades y Concentración",
+        "url": "https://estudiayausa.github.io/website/opt-in/?freebie=soft_skills"
     },
-    "Habilidades Emocionales": {
-        "nombre": "Recursos: 3 Ejercicios para Mejorar tu Concentración",
-        "url": "https://estudiayausa.github.io/website/opt-in/?freebie=emociones"
+    # GRUPO 4: FINANZAS Y EMPRENDIMIENTO
+    "freebie4_fin": {
+        "nombre": "Ebook: Introducción a Inversiones Inteligentes y Economía Personal",
+        "url": "https://estudiayausa.github.io/website/opt-in/?freebie=fin_trading"
     },
-    # --- MÁS MENTORÍA: MAPEA PILARES SIMILARES AL MISMO FREEBIE ---
-    "Software": FREEBIE_MAP.get("Inteligencia artificial"), # Mapear 'Software' a 'IA'
-    "Ecommerce": FREEBIE_MAP.get("Marketing"),              # Mapear 'Ecommerce' a 'Marketing'
-    "Coaching": FREEBIE_MAP.get("Habilidades Emocionales"), # Mapear 'Coaching' a 'Emocionales'
+    # GRUPO 5: ARTE, DISEÑO Y CREACIÓN
+    "freebie5_art": {
+        "nombre": "Kit de Recursos: Guía Rápida de Diseño y Postproducción",
+        "url": "https://estudiayausa.github.io/website/opt-in/?freebie=creative_kit"
+    },
+    # GRUPO 6: CIENCIAS, SALUD Y ESTILOS DE VIDA
+    "freebie6_sci": {
+        "nombre": "Recursos: Checklist de Bienestar y Hábitos Saludables",
+        "url": "https://estudiayausa.github.io/website/opt-in/?freebie=salud_vida"
+    }
 }
-# ---------------------------------------------
 
+# PASO 2: Mapear todas las categorías a los 6 Freebies (ESTE CÓDIGO SE CORRIGIÓ)
+# Usa un nuevo diccionario para el mapeo final y así evitar el NameError original.
+FINAL_FREEBIE_MAP = {}
+
+# Función de ayuda para el mapeo
+def map_pillars(pillars, key):
+    for pilar in pillars:
+        FINAL_FREEBIE_MAP[pilar] = FREEBIE_MAP[key]
+
+# --- MAPEANDO POR GRUPOS TEMÁTICOS ---
+
+# GRUPO 1: TECNOLOGÍA Y DESARROLLO
+tech_pillars = ["Desarrollo Web", "Software", "Bases de datos", "Blockchain", "Desarrollo APP", "Videojuegos", "Big Data", "Hardware", "Inteligencia artificial", "Informática", "Ofimatica", "Software de gestión", "WordPress y CMS", "Inglés"] # Incluyendo idiomas técnicos como 'Inglés'
+map_pillars(tech_pillars, "freebie1_tech")
+
+# GRUPO 2: NEGOCIOS Y MARKETING
+mkt_pillars = ["Ecommerce", "Emprender", "Marketing", "Ventas", "Social Media", "SEO y SEM", "Promoción y distribución", "Mercadotecnia", "Desarrollo empresarial"]
+map_pillars(mkt_pillars, "freebie2_mkt")
+
+# GRUPO 3: HABILIDADES BLANDAS Y PERSONALES
+pers_pillars = ["Coaching", "Habilidades Emocionales", "Desarrollo Personal", "PNL", "Escritores", "Lengua de signos", "Otros", "Educacion"]
+map_pillars(pers_pillars, "freebie3_pers")
+
+# GRUPO 4: FINANZAS Y ECONOMÍA
+fin_pillars = ["Finanzas y Trading", "Economía familiar", "Economía", "Sociología", "Derecho", "Historia", "Teología", "Matemáticas"]
+map_pillars(fin_pillars, "freebie4_fin")
+
+# GRUPO 5: ARTE, DISEÑO Y CREACIÓN
+art_pillars = ["Animación y 3D", "Infoarquitectura 3D", "Diseño Gráfico", "Video y Postproducción", "Fotografía", "Ilustración", "Manualidades", "Hobbies", "Estilismo", "Música", "Arte", "Literatura", "Baile", "Cine", "Canto", "Italiano", "Japonés", "Alemán", "Portugués", "Árabe", "Francés", "Chino", "Ruso", "Español"] # Incluyendo idiomas y creación
+map_pillars(art_pillars, "freebie5_art")
+
+# GRUPO 6: CIENCIAS, SALUD Y ESTILOS DE VIDA
+sci_pillars = ["Deportes", "Salud", "Relax y Bienestar", "Vida saludable", "Yoga y Pilates", "Puericultura", "Familia y Amigos", "Ocio", "Viajes", "Medio Ambiente", "Agricultura", "Naturaleza", "Ganadería", "Medicina", "Ingenierías", "Física", "Biología", "Quimica", "Recetas", "Servicio en sala", "Bebidas y"]
+map_pillars(sci_pillars, "freebie6_sci")
+
+
+# La función de obtención usará el mapeo FINAL
 def choose_pilar():
     """Elige un pilar de contenido al azar."""
     return random.choice(PILAR_LIST)
@@ -89,16 +134,17 @@ def generate_content(pilar):
         messages=[{"role": "user", "content": prompt}],
         response_format={"type": "json_object"}
     )
-    # Retorna el contenido del mensaje como un diccionario Python
     return json.loads(response.choices[0].message.content)
 
 def build_markdown_file(pilar, json_data):
     """Ensambla el Front Matter, el contenido y el CTA."""
     
-    # 1. Obtener datos y freebie. Usa el freebie default si el pilar no está mapeado.
+    # 1. Obtener datos y freebie.
     today = datetime.datetime.now().strftime("%Y-%m-%d")
     freebie_default = {"nombre": "Guía General de Aprendizaje", "url": "https://estudiayausa.github.io/website/opt-in/?freebie=default"}
-    freebie_info = FREEBIE_MAP.get(pilar, freebie_default)
+    
+    # *** USAR EL DICCIONARIO FINAL_FREEBIE_MAP ***
+    freebie_info = FINAL_FREEBIE_MAP.get(pilar, freebie_default) 
     
     # 2. Construir el Front Matter y Contenido
     markdown_content = f"""---
@@ -127,7 +173,6 @@ Convierte la teoría en acción. Descarga nuestra **{freebie_info['nombre']}** c
 
 def create_slug(title):
     """Genera un slug limpio y URL-friendly a partir del título."""
-    # Quitar caracteres especiales, convertir a minúsculas y reemplazar espacios por guiones
     title = re.sub(r'[^\w\s-]', '', title).strip().lower()
     slug = re.sub(r'[-\s]+', '-', title)
     return slug
@@ -143,24 +188,22 @@ def publish_reddit_post(json_data):
     )
     
     # 1. Preparar el título y cuerpo del post
-    # Intentar separar el gancho del cuerpo para el post de texto
-    gancho_full = json_data.get('gancho_reddit', json_data['titulo']) # Usar título si no existe el gancho
+    gancho_full = json_data.get('gancho_reddit', json_data['titulo'])
     
-    # Esto es una suposición basada en el prompt, puede requerir ajuste fino
     if '¡Link en los comentarios!' in gancho_full:
         title, body_suffix = gancho_full.split('¡Link en los comentarios!', 1)
         body = body_suffix.strip()
     else:
         title = gancho_full
-        body = json_data['extracto'] + " ¡Link en los comentarios!" # Asegurar que el CTA final esté
+        body = json_data['extracto'] + " ¡Link en los comentarios!"
 
     # 2. Publicar el Post
-    subreddit = reddit.subreddit("Estudia-Ya")
+    subreddit_name = "Estudia-Ya" 
+    subreddit = reddit.subreddit(subreddit_name)
     new_post = subreddit.submit(title.strip(), selftext=body.strip())
     
     # 3. Publicar el enlace en el primer comentario
     file_slug = create_slug(json_data['titulo'])
-    # NOTA: La URL final es la ruta que usará Netlify después del build
     article_url = f"https://estudiayausa.github.io/website/posts/{file_slug}/" 
 
     new_post.reply(f"Aquí tienes el artículo completo para que no tengas que buscarlo: {article_url}")
@@ -168,7 +211,6 @@ def publish_reddit_post(json_data):
 
 # --- FUNCIÓN PRINCIPAL DE LA APP ---
 if __name__ == "__main__":
-    # La carpeta 'posts' debe existir en la raíz del repositorio
     if not os.path.exists("posts"):
         os.makedirs("posts")
 
@@ -197,5 +239,4 @@ if __name__ == "__main__":
 
     except Exception as e:
         print(f"Error fatal en la automatización: {e}")
-        # En el entorno de GH Actions, esto fallará el job, notificándote el error.
-        
+        raise # Re-lanza la excepción para que GitHub Actions marque el job como fallido

@@ -1,34 +1,15 @@
-name: Contenido Semanal Automatizado
-
-on:
-  schedule:
-    # 0 9 * * 1 = Lunes a las 9:00 AM UTC. AJUSTA LA HORA a tu necesidad.
-    - cron: '0 9 * * 1' 
-  workflow_dispatch:
-
-jobs:
-  generate-and-publish:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout del Repositorio
-        uses: actions/checkout@v4
-
-      - name: Configurar Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: '3.x'
-
-      - name: Instalar Dependencias
-        run: pip install -r scripts/requirements.txt
-        
-      # Ejecución del Script principal (Paso 3)
+# Ejecución del Script principal (Paso 3)
       - name: Ejecutar la App de Contenido
         run: python scripts/automation_app.py
         env:
-          # Inyecta los secretos para que el script los use
+          # Clave de OpenAI (Causa del error 401 si el valor es incorrecto o no se inyecta)
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          
+          # Claves de Reddit (Estas líneas FALTABAN O ESTABAN INCOMPLETAS)
           REDDIT_CLIENT_ID: ${{ secrets.REDDIT_CLIENT_ID }}
-          # ... Añadir los otros secretos de Reddit aquí
+          REDDIT_CLIENT_SECRET: ${{ secrets.REDDIT_CLIENT_SECRET }}
+          REDDIT_USERNAME: ${{ secrets.REDDIT_USERNAME }}
+          REDDIT_PASSWORD: ${{ secrets.REDDIT_PASSWORD }}
 
       - name: Commit y Push del Nuevo Artículo
         run: |
@@ -37,5 +18,4 @@ jobs:
           git add posts/
           git commit -m "feat: Articulo semanal generado via IA"
           git push
-        # La condición 'if' asegura que solo haga push si hay cambios (archivos nuevos)
         if: success()

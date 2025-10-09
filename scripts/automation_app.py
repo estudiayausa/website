@@ -101,7 +101,7 @@ def choose_pilar():
 
 def generate_content(pilar):
     """Llama a la API de OpenAI y obtiene el JSON."""
-    genai.configure(api_key=os.environ.get("GEMINI_API_KEY"))
+    genai.configure(api_key=os.environ.get("GOOGLE_API_KEY"))
     model = genai.GenerativeModel('gemini-pro')
     
     # PROMPT DE OPENAI COMPLETO Y MEJORADO (Asegurando la estructura JSON)

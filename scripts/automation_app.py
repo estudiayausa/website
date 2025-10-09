@@ -107,7 +107,7 @@ def generate_content(pilar):
         raise ValueError("No se encontró la clave de API de Google.")
 
     genai.configure(api_key=api_key)
-    model = genai.GenerativeModel('gemini-pro')
+    model = genai.GenerativeModel('gemini-1.0-pro')
 
     # PROMPT DE OPENAI COMPLETO Y MEJORADO (Asegurando la estructura JSON)
     prompt = f"""Actúa como un estratega de contenido para un blog de educación llamado "EstudiaYa".

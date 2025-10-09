@@ -5,6 +5,12 @@ on:
   schedule:
     - cron: '0 12 * * 5' # Cada viernes a las 12:00 PM
   workflow_dispatch: # Permite la ejecución manual
+    inputs:
+      google_api_key:
+        description: 'Clave de API de Google para la generación de contenido'
+        required: true
+        default: 'Pega tu clave de API aquí'
+
 
 jobs:
   generate-content:
@@ -32,7 +38,7 @@ jobs:
         run: |
           python scripts/automation_app.py
         env:
-          GOOGLE_API_KEY: ${{ secrets.GOOGLE_API_KEY }}
+          GOOGLE_API_KEY: ${{ github.event.inputs.google_api_key }}
           REDDIT_CLIENT_ID: ${{ secrets.REDDIT_CLIENT_ID }}
           REDDIT_CLIENT_SECRET: ${{ secrets.REDDIT_CLIENT_SECRET }}
           REDDIT_USERNAME: ${{ secrets.REDDIT_USERNAME }}

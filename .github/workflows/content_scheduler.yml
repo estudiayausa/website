@@ -33,7 +33,7 @@ jobs:
             echo "❌ ERROR: El secreto GEMINI_API_KEY NO está configurado o está vacío en GitHub."
           fi
         env:
-          KEY_LENGTH: ${{ secrets.GEMINI_API_KEY && string.length(secrets.GEMINI_API_KEY) || 0 }}
+          KEY_LENGTH: ${{ length(secrets.GEMINI_API_KEY) }}
 
       - name: Ejecutar la App de Contenido
         id: generate

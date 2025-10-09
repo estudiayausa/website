@@ -24,6 +24,17 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r scripts/requirements.txt
 
+      - name: 🐞 Depurar Secreto de API
+        run: |
+          if [ -n "${{ secrets.GEMINI_API_KEY }}" ]; then
+            echo "✅ El secreto GEMINI_API_KEY está configurado en GitHub."
+            echo "Longitud de la clave: ${{ env.KEY_LENGTH }}"
+          else
+            echo "❌ ERROR: El secreto GEMINI_API_KEY NO está configurado o está vacío en GitHub."
+          fi
+        env:
+          KEY_LENGTH: ${{ secrets.GEMINI_API_KEY && string.length(secrets.GEMINI_API_KEY) || 0 }}
+
       - name: Ejecutar la App de Contenido
         id: generate
         run: |

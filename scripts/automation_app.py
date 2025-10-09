@@ -2,8 +2,8 @@ import os
 import random
 import json
 import datetime
-from openai import OpenAI
 import praw
+import google.generativeai as genai
 import re
 
 # --- CONFIGURACIÓN DE PILARES Y FREEBIES ---
@@ -35,27 +35,27 @@ PILAR_LIST = [
 CORE_FREEBIES = {
     "tech": {
         "nombre": "Checklist: Herramientas Esenciales de IA y Desarrollo",
-        "url": "https://estudiayausa.github.io/website/opt-in/?freebie=tech_essentials" 
+        "url": "https://estudia-ya.com/opt-in/?freebie=tech_essentials" 
     },
     "mkt": {
         "nombre": "Plantilla: Plan de Marketing y Ventas de 30 Días",
-        "url": "https://estudiayausa.github.io/website/opt-in/?freebie=mkt_plan"
+        "url": "https://estudia-ya.com/opt-in/?freebie=mkt_plan"
     },
     "pers": {
         "nombre": "Guía: 5 Pasos para Dominar Nuevas Habilidades y Concentración",
-        "url": "https://estudiayausa.github.io/website/opt-in/?freebie=soft_skills"
+        "url": "https://estudia-ya.com/opt-in/?freebie=soft_skills"
     },
     "fin": {
         "nombre": "Ebook: Introducción a Inversiones Inteligentes y Economía Personal",
-        "url": "https://estudiayausa.github.io/website/opt-in/?freebie=fin_trading"
+        "url": "https://estudia-ya.com/opt-in/?freebie=fin_trading"
     },
     "art": {
         "nombre": "Kit de Recursos: Guía Rápida de Diseño y Postproducción",
-        "url": "https://estudiayausa.github.io/website/opt-in/?freebie=creative_kit"
+        "url": "https://estudia-ya.com/opt-in/?freebie=creative_kit"
     },
     "sci": {
         "nombre": "Recursos: Checklist de Bienestar y Hábitos Saludables",
-        "url": "https://estudiayausa.github.io/website/opt-in/?freebie=salud_vida"
+        "url": "https://estudia-ya.com/opt-in/?freebie=salud_vida"
     }
 }
 
@@ -101,7 +101,8 @@ def choose_pilar():
 
 def generate_content(pilar):
     """Llama a la API de OpenAI y obtiene el JSON."""
-    client = OpenAI(api_key=os.environ.get("OPENAI_API_KEY"))
+    genai.configure(api_key=os.environ.get("GOOGLE_API_KEY"))
+    model = genai.GenerativeModel('gemini-pro')
     
     # PROMPT DE OPENAI COMPLETO Y MEJORADO (Asegurando la estructura JSON)
     prompt = f"""Actúa como un estratega de contenido para un blog de educación llamado "EstudiaYa".
@@ -121,19 +122,17 @@ def generate_content(pilar):
     }}
     """
     
-    response = client.chat.completions.create(
-        model="gpt-3.5-turbo", # Modelo económico y rápido
-        messages=[{"role": "user", "content": prompt}],
-        response_format={"type": "json_object"}
-    )
-    return json.loads(response.choices[0].message.content)
+    response = model.generate_content(prompt)
+    # Gemini puede devolver el JSON envuelto en ```json ... ```, lo limpiamos.
+    cleaned_text = response.text.strip().replace('```json', '').replace('```', '')
+    return json.loads(cleaned_text)
 
 def build_markdown_file(pilar, json_data):
     """Ensambla el Front Matter, el contenido y el CTA."""
     
     # 1. Obtener datos y freebie.
     today = datetime.datetime.now().strftime("%Y-%m-%d")
-    freebie_default = {"nombre": "Guía General de Aprendizaje", "url": "https://estudiayausa.github.io/website/opt-in/?freebie=default"}
+    freebie_default = {"nombre": "Guía General de Aprendizaje", "url": "https://estudia-ya.com/opt-in/?freebie=default"}
     
     # Usa el diccionario FREEBIE_MAP corregido
     freebie_info = FREEBIE_MAP.get(pilar, freebie_default) 
@@ -196,7 +195,7 @@ def publish_reddit_post(json_data):
     
     # 3. Publicar el enlace en el primer comentario
     file_slug = create_slug(json_data['titulo'])
-    article_url = f"https://estudiayausa.github.io/website/posts/{file_slug}/" 
+    article_url = f"https://estudia-ya.com/posts/{file_slug}/" 
 
     new_post.reply(f"Aquí tienes el artículo completo para que no tengas que buscarlo: {article_url}")
 

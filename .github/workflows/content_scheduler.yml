@@ -1,21 +1,53 @@
-# Ejecución del Script principal (Paso 3)
+# .github/workflows/content_scheduler.yml
+name: Generador de Contenido Semanal
+
+on:
+  schedule:
+    - cron: '0 12 * * 5' # Cada viernes a las 12:00 PM
+  workflow_dispatch: # Permite la ejecución manual
+
+jobs:
+  generate-content:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout del Repositorio
+        uses: actions/checkout@v3
+
+      - name: Configurar Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.x'
+
+      - name: Instalar Dependencias de Python
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r scripts/requirements.txt
+
       - name: Ejecutar la App de Contenido
-        run: python scripts/automation_app.py
+        id: generate
+        run: |
+          python scripts/automation_app.py
         env:
-          # Clave de OpenAI (Causa del error 401 si el valor es incorrecto o no se inyecta)
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
-          
-          # Claves de Reddit (Estas líneas FALTABAN O ESTABAN INCOMPLETAS)
           REDDIT_CLIENT_ID: ${{ secrets.REDDIT_CLIENT_ID }}
           REDDIT_CLIENT_SECRET: ${{ secrets.REDDIT_CLIENT_SECRET }}
           REDDIT_USERNAME: ${{ secrets.REDDIT_USERNAME }}
           REDDIT_PASSWORD: ${{ secrets.REDDIT_PASSWORD }}
 
-      - name: Commit y Push del Nuevo Artículo
+      - name: Verificar si hay cambios
+        id: git-check
         run: |
-          git config user.name 'github-actions[bot]'
-          git config user.email 'github-actions[bot]@users.noreply.github.com'
-          git add posts/
-          git commit -m "feat: Articulo semanal generado via IA"
+          echo "changes=$(if git diff --exit-code --quiet; then echo "false"; else echo "true"; fi)" >> $GITHUB_OUTPUT
+
+      - name: Commit y Push del Nuevo Artículo
+        if: steps.git-check.outputs.changes == 'true'
+        run: |
+          git config --global user.name 'GitHub Actions Bot'
+          git config --global user.email 'github-actions-bot@users.noreply.github.com'
+          git add posts/*.md
+          # Busca el archivo .md más reciente para el mensaje del commit
+          LATEST_POST=$(ls -t posts/*.md | head -n 1)
+          COMMIT_MESSAGE="feat(content): Add new article from bot: $(basename $LATEST_POST .md)"
+          git commit -m "$COMMIT_MESSAGE"
           git push
-        if: success()

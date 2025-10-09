@@ -2,8 +2,8 @@ import os
 import random
 import json
 import datetime
-import praw
 import google.generativeai as genai
+import praw
 import re
 
 # --- CONFIGURACIÓN DE PILARES Y FREEBIES ---
@@ -35,27 +35,27 @@ PILAR_LIST = [
 CORE_FREEBIES = {
     "tech": {
         "nombre": "Checklist: Herramientas Esenciales de IA y Desarrollo",
-        "url": "https://estudia-ya.com/opt-in/?freebie=tech_essentials" 
+        "url": "https://estudiayausa.github.io/website/opt-in/?freebie=tech_essentials" 
     },
     "mkt": {
         "nombre": "Plantilla: Plan de Marketing y Ventas de 30 Días",
-        "url": "https://estudia-ya.com/opt-in/?freebie=mkt_plan"
+        "url": "https://estudiayausa.github.io/website/opt-in/?freebie=mkt_plan"
     },
     "pers": {
         "nombre": "Guía: 5 Pasos para Dominar Nuevas Habilidades y Concentración",
-        "url": "https://estudia-ya.com/opt-in/?freebie=soft_skills"
+        "url": "https://estudiayausa.github.io/website/opt-in/?freebie=soft_skills"
     },
     "fin": {
         "nombre": "Ebook: Introducción a Inversiones Inteligentes y Economía Personal",
-        "url": "https://estudia-ya.com/opt-in/?freebie=fin_trading"
+        "url": "https://estudiayausa.github.io/website/opt-in/?freebie=fin_trading"
     },
     "art": {
         "nombre": "Kit de Recursos: Guía Rápida de Diseño y Postproducción",
-        "url": "https://estudia-ya.com/opt-in/?freebie=creative_kit"
+        "url": "https://estudiayausa.github.io/website/opt-in/?freebie=creative_kit"
     },
     "sci": {
         "nombre": "Recursos: Checklist de Bienestar y Hábitos Saludables",
-        "url": "https://estudia-ya.com/opt-in/?freebie=salud_vida"
+        "url": "https://estudiayausa.github.io/website/opt-in/?freebie=salud_vida"
     }
 }
 
@@ -101,9 +101,14 @@ def choose_pilar():
 
 def generate_content(pilar):
     """Llama a la API de OpenAI y obtiene el JSON."""
-    genai.configure(api_key=os.environ.get("GOOGLE_API_KEY"))
+    api_key = os.environ.get("GOOGLE_API_KEY")
+    if not api_key:
+        print("❌ ERROR CRÍTICO: La variable de entorno GOOGLE_API_KEY no fue encontrada.")
+        raise ValueError("No se encontró la clave de API de Google.")
+
+    genai.configure(api_key=api_key)
     model = genai.GenerativeModel('gemini-pro')
-    
+
     # PROMPT DE OPENAI COMPLETO Y MEJORADO (Asegurando la estructura JSON)
     prompt = f"""Actúa como un estratega de contenido para un blog de educación llamado "EstudiaYa".
     El pilar de contenido para el artículo de hoy es: **{pilar}**.
@@ -132,7 +137,7 @@ def build_markdown_file(pilar, json_data):
     
     # 1. Obtener datos y freebie.
     today = datetime.datetime.now().strftime("%Y-%m-%d")
-    freebie_default = {"nombre": "Guía General de Aprendizaje", "url": "https://estudia-ya.com/opt-in/?freebie=default"}
+    freebie_default = {"nombre": "Guía General de Aprendizaje", "url": "https://estudiayausa.github.io/website/opt-in/?freebie=default"}
     
     # Usa el diccionario FREEBIE_MAP corregido
     freebie_info = FREEBIE_MAP.get(pilar, freebie_default) 

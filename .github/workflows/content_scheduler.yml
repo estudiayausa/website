@@ -1,21 +1,47 @@
-# Ejecución del Script principal (Paso 3)
-      - name: Ejecutar la App de Contenido
+# .github/workflows/content_scheduler.yml
+name: Generador de Contenido Semanal
+
+on:
+  schedule:
+    # Se ejecuta cada viernes a las 12:00 PM UTC. Puedes ajustar el horario.
+    - cron: '0 12 * * 5'
+  workflow_dispatch: # Permite la ejecución manual desde la pestaña "Actions"
+
+jobs:
+  generate-content:
+    runs-on: ubuntu-latest
+    permissions:
+      # Se necesitan permisos de escritura para hacer commit del nuevo artículo.
+      contents: write
+
+    steps:
+      - name: 1. Checkout del Repositorio
+        uses: actions/checkout@v4
+
+      - name: 2. Configurar Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x' # Usa la última versión estable de Python 3
+
+      - name: 3. Instalar Dependencias de Python
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r scripts/requirements.txt
+
+      - name: 4. Ejecutar la App de Contenido
         run: python scripts/automation_app.py
         env:
-          # Clave de OpenAI (Causa del error 401 si el valor es incorrecto o no se inyecta)
-          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
-          
-          # Claves de Reddit (Estas líneas FALTABAN O ESTABAN INCOMPLETAS)
+          # Claves de IA y Reddit que se obtienen de los "Secrets" del repositorio
+          GOOGLE_API_KEY: ${{ secrets.GOOGLE_API_KEY }}
           REDDIT_CLIENT_ID: ${{ secrets.REDDIT_CLIENT_ID }}
           REDDIT_CLIENT_SECRET: ${{ secrets.REDDIT_CLIENT_SECRET }}
           REDDIT_USERNAME: ${{ secrets.REDDIT_USERNAME }}
           REDDIT_PASSWORD: ${{ secrets.REDDIT_PASSWORD }}
 
-      - name: Commit y Push del Nuevo Artículo
+      - name: 5. Commit y Push del Nuevo Artículo
         run: |
           git config user.name 'github-actions[bot]'
           git config user.email 'github-actions[bot]@users.noreply.github.com'
-          git add posts/
-          git commit -m "feat: Articulo semanal generado via IA"
+          git add posts/*.md
+          git commit -m "feat(content): Nuevo artículo generado por el bot" || echo "No hay cambios para commitear"
           git push
-        if: success()

@@ -2,8 +2,8 @@ import os
 import random
 import json
 import datetime
-from openai import OpenAI
 import praw
+import google.generativeai as genai
 import re
 
 # --- CONFIGURACIÓN DE PILARES Y FREEBIES ---
@@ -101,7 +101,8 @@ def choose_pilar():
 
 def generate_content(pilar):
     """Llama a la API de OpenAI y obtiene el JSON."""
-    client = OpenAI(api_key=os.environ.get("OPENAI_API_KEY"))
+    genai.configure(api_key=os.environ.get("GEMINI_API_KEY"))
+    model = genai.GenerativeModel('gemini-pro')
     
     # PROMPT DE OPENAI COMPLETO Y MEJORADO (Asegurando la estructura JSON)
     prompt = f"""Actúa como un estratega de contenido para un blog de educación llamado "EstudiaYa".
@@ -121,12 +122,10 @@ def generate_content(pilar):
     }}
     """
     
-    response = client.chat.completions.create(
-        model="gpt-3.5-turbo", # Modelo económico y rápido
-        messages=[{"role": "user", "content": prompt}],
-        response_format={"type": "json_object"}
-    )
-    return json.loads(response.choices[0].message.content)
+    response = model.generate_content(prompt)
+    # Gemini puede devolver el JSON envuelto en ```json ... ```, lo limpiamos.
+    cleaned_text = response.text.strip().replace('```json', '').replace('```', '')
+    return json.loads(cleaned_text)
 
 def build_markdown_file(pilar, json_data):
     """Ensambla el Front Matter, el contenido y el CTA."""

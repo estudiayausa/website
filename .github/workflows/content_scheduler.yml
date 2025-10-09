@@ -24,22 +24,12 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r scripts/requirements.txt
 
-      - name: 🐞 Verificar Secreto de API
-        run: |
-          if [ -n "${{ env.API_KEY_PRESENT }}" ]; then
-            echo "✅ El secreto GEMINI_API_KEY está configurado en GitHub."
-          else
-            echo "❌ ERROR: El secreto GEMINI_API_KEY NO está configurado o está vacío en GitHub."
-          fi
-        env:
-          API_KEY_PRESENT: ${{ secrets.GEMINI_API_KEY != '' }}
-
       - name: Ejecutar la App de Contenido
         id: generate
         run: |
           python scripts/automation_app.py
         env:
-          GOOGLE_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          GOOGLE_API_KEY: ${{ secrets.GOOGLE_API_KEY }}
           REDDIT_CLIENT_ID: ${{ secrets.REDDIT_CLIENT_ID }}
           REDDIT_CLIENT_SECRET: ${{ secrets.REDDIT_CLIENT_SECRET }}
           REDDIT_USERNAME: ${{ secrets.REDDIT_USERNAME }}

@@ -41,13 +41,14 @@ jobs:
         # Luego, `git diff` puede detectar si hay cambios preparados para el commit.
         run: |
           git add posts/*.md
-          echo "changes=$(if git diff --exit-code --quiet; then echo "false"; else echo "true"; fi)" >> $GITHUB_OUTPUT
+          echo "changes=$(if git diff --staged --quiet --exit-code; then echo "false"; else echo "true"; fi)" >> $GITHUB_OUTPUT
 
       - name: Commit y Push del Nuevo Artículo
         if: steps.git-check.outputs.changes == 'true'
         run: |
           git config --global user.name 'GitHub Actions Bot'
           git config --global user.email 'github-actions-bot@users.noreply.github.com'
+          # El 'git add' ya se hizo en el paso anterior, así que solo hacemos commit.
           # Busca el archivo .md más reciente para el mensaje del commit
           LATEST_POST=$(ls -t posts/*.md | head -n 1)
           COMMIT_MESSAGE="feat(content): Add new article from bot: $(basename $LATEST_POST .md)"

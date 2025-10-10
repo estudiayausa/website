@@ -183,14 +183,16 @@ def publish_reddit_post(json_data):
     )
     
     # 1. Preparar el título y cuerpo del post
-    gancho_full = json_data.get('gancho_reddit', json_data['titulo'])
-    
-    if '¡Link en los comentarios!' in gancho_full:
-        title, body_suffix = gancho_full.split('¡Link en los comentarios!', 1)
-        body = body_suffix.strip()
+    gancho_reddit = json_data.get('gancho_reddit', json_data['titulo'])
+
+    # Si la IA devuelve un diccionario para el gancho, lo manejamos.
+    if isinstance(gancho_reddit, dict):
+        title = gancho_reddit.get('titulo', json_data['titulo'])
+        body = gancho_reddit.get('cuerpo', json_data['extracto'])
+    # Si es una cadena de texto, la procesamos como antes.
     else:
-        title = gancho_full
-        body = json_data['extracto'] + " ¡Link en los comentarios!"
+        title = gancho_reddit
+        body = json_data.get('extracto', '¡Mira este nuevo artículo!')
 
     # 2. Publicar el Post
     subreddit_name = "EstudiaYa" 

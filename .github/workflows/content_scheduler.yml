@@ -33,6 +33,16 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r scripts/requirements.txt
 
+      - name: 🐞 Depurar Secretos de Reddit
+        run: |
+          echo "Verificando la presencia de los secretos de Reddit..."
+          if [ -n "${{ secrets.REDDIT_CLIENT_ID }}" ]; then echo "✅ REDDIT_CLIENT_ID encontrado."; else echo "❌ ERROR: REDDIT_CLIENT_ID no encontrado o vacío."; fi
+          if [ -n "${{ secrets.REDDIT_CLIENT_SECRET }}" ]; then echo "✅ REDDIT_CLIENT_SECRET encontrado."; else echo "❌ ERROR: REDDIT_CLIENT_SECRET no encontrado o vacío."; fi
+          if [-n "${{ secrets.REDDIT_USERNAME }}" ]; then echo "✅ REDDIT_USERNAME encontrado."; else echo "❌ ERROR: REDDIT_USERNAME no encontrado o vacío."; fi
+          if [ -n "${{ secrets.REDDIT_PASSWORD }}" ]; then echo "✅ REDDIT_PASSWORD encontrado."; else echo "❌ ERROR: REDDIT_PASSWORD no encontrado o vacío."; fi
+          echo "--------------------------------------------------"
+        # Este paso no necesita la sección `env`, ya que accede a los secretos directamente.
+
       - name: Ejecutar la App de Contenido
         id: generate
         run: |

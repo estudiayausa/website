@@ -99,22 +99,37 @@ def choose_pilar():
     """Elige un pilar de contenido al azar."""
     return random.choice(PILAR_LIST)
 
-def list_available_models():
-    """Función de depuración para listar los modelos de Gemini disponibles."""
+def generate_content(pilar):
+    """Llama a la API de Gemini y obtiene el JSON."""
     api_key = os.environ.get("GOOGLE_API_KEY")
     if not api_key:
         print("❌ ERROR CRÍTICO: La variable de entorno GOOGLE_API_KEY no fue encontrada.")
         raise ValueError("No se encontró la clave de API de Google.")
 
     genai.configure(api_key=api_key)
+    model = genai.GenerativeModel('gemini-pro-latest')
 
-    print("✅ Clave de API encontrada. Listando modelos disponibles...")
-    for m in genai.list_models():
-      if 'generateContent' in m.supported_generation_methods:
-        print(f"  - {m.name}")
-    print("\nCopia uno de los nombres de modelo de arriba y úsalo en el script.")
-    # Detenemos la ejecución aquí a propósito para solo listar los modelos.
-    return None
+    prompt = f"""Actúa como un estratega de contenido para un blog de educación llamado "EstudiaYa".
+    El pilar de contenido para el artículo de hoy es: **{pilar}**.
+
+    Tu tarea es:
+    1. Basado en ese pilar, genera una idea de tema específico y atractivo para un artículo de blog.
+    2. Escribe el artículo completo para ese tema.
+    3. Crea un gancho ultra-atractivo para promocionar este artículo en Reddit.
+
+    El resultado final debe ser un único objeto JSON, sin texto introductorio, solo el JSON, con la siguiente estructura:
+    {{
+      "titulo": "El título del artículo que generaste",
+      "contenido_markdown": "El contenido completo del artículo en formato Markdown. Debe ser informativo, fácil de leer y tener al menos 300 palabras. Usa encabezados, listas y negritas para estructurar el texto.",
+      "extracto": "Un resumen corto y atractivo del artículo de no más de 160 caracteres.",
+      "gancho_reddit": "Un título corto y provocativo (máx. 100 caracteres) y un cuerpo de teaser de no más de 400 caracteres, optimizados para Reddit. El cuerpo debe terminar con '¡Link en los comentarios!'"
+    }}
+    """
+    
+    response = model.generate_content(prompt)
+    # Gemini puede devolver el JSON envuelto en ```json ... ```, lo limpiamos.
+    cleaned_text = response.text.strip().replace('```json', '').replace('```', '')
+    return json.loads(cleaned_text)
 
 def build_markdown_file(pilar, json_data):
     """Ensambla el Front Matter, el contenido y el CTA."""
@@ -195,10 +210,27 @@ if __name__ == "__main__":
         os.makedirs("posts")
 
     try:
-        # --- PASO DE DEPURACIÓN ---
-        # Esta llamada ahora solo listará los modelos y no generará contenido.
-        list_available_models()
-        print("\nScript de depuración finalizado. Revisa los logs para ver la lista de modelos.")
+        # 1. Elegir Pilar
+        pilar = choose_pilar()
+        print(f"Pilar seleccionado: {pilar}")
+
+        # 2. Generar Contenido
+        content_json = generate_content(pilar)
+        print("Contenido generado por IA.")
+
+        # 3. Construir Archivo
+        markdown_text = build_markdown_file(pilar, content_json)
+        
+        # 4. Guardar Archivo
+        file_slug = create_slug(content_json['titulo'])
+        filename = f"posts/{datetime.datetime.now().strftime('%Y-%m-%d')}-{file_slug}.md"
+        with open(filename, "w", encoding="utf-8") as f:
+            f.write(markdown_text)
+        print(f"Archivo guardado como: {filename}")
+
+        # 5. Publicar en Reddit
+        publish_reddit_post(content_json)
+        print("Publicación en Reddit completada.")
 
     except Exception as e:
         print(f"Error fatal en la automatización: {e}")

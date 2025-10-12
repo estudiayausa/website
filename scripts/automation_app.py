@@ -174,6 +174,7 @@ def create_slug(title):
 
 def publish_reddit_post(json_data):
     """Publica el gancho en Reddit y añade el enlace en el comentario."""
+    print(f"DEBUG: Attempting to authenticate with Reddit user: '{os.environ.get('REDDIT_USERNAME')}'")
     reddit = praw.Reddit(
         client_id=os.environ.get("REDDIT_CLIENT_ID"),
         client_secret=os.environ.get("REDDIT_CLIENT_SECRET"),

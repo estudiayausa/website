@@ -1,4 +1,6 @@
 import { API } from './api.js';
+import CONFIG from './config.js';
+import { mockCourses } from './mock-data.js';
 import { createCourseCard } from './utils.js';
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -71,6 +73,16 @@ async function fetchAndDisplayCourses() {
     `;
 
     const filters = getAppliedFilters();
+
+    if (CONFIG.USE_MOCK_DATA) {
+        console.log('Usando datos de prueba para el catálogo');
+        // Simular un pequeño delay para que se sienta real
+        setTimeout(() => {
+            displayCourses(mockCourses);
+        }, 500);
+        return;
+    }
+
     const api = new API();
 
     try {
@@ -84,7 +96,7 @@ async function fetchAndDisplayCourses() {
 
 function displayCourses(courses) {
     const container = document.getElementById('catalog-container');
-    
+
     if (!courses || courses.length === 0) {
         container.innerHTML = `<p class="no-results-message">No se encontraron cursos que coincidan con tu búsqueda.</p>`;
         return;

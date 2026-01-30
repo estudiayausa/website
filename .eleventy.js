@@ -1,6 +1,6 @@
 const { DateTime } = require("luxon");
 
-module.exports = function(eleventyConfig) {
+module.exports = function (eleventyConfig) {
 
     // Copia la carpeta 'assets' al directorio de salida
     eleventyConfig.addPassthroughCopy({ "assets": "assets" });
@@ -14,7 +14,7 @@ module.exports = function(eleventyConfig) {
 
     // Filtro para formatear fechas de manera legible
     eleventyConfig.addFilter("readableDate", dateObj => {
-        return DateTime.fromJSDate(dateObj, {zone: 'utc'}).setLocale('es').toLocaleString(DateTime.DATE_FULL);
+        return DateTime.fromJSDate(dateObj, { zone: 'utc' }).setLocale('es').toLocaleString(DateTime.DATE_FULL);
     });
 
     return {
@@ -26,7 +26,7 @@ module.exports = function(eleventyConfig) {
             includes: "_includes",
             input: ".",
             output: "_site"
-        },
-        pathPrefix: "/website/" // IMPORTANTE: Para que funcione en GitHub Pages
+        }
+        // pathPrefix: "/website/" // Comentado para Netlify (servir desde raíz)
     };
 };

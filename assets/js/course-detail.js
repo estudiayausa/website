@@ -1,5 +1,7 @@
 import CONFIG from './config.js';
+import CONFIG from './config.js';
 import { API } from './api.js';
+import { mockCourses } from './mock-data.js';
 
 document.addEventListener('DOMContentLoaded', () => {
     loadCourseDetails();
@@ -10,8 +12,54 @@ async function loadCourseDetails() {
     const urlParams = new URLSearchParams(window.location.search);
     const courseCode = urlParams.get('code');
 
-    if (!courseCode) {
+    if (!courseCode && !CONFIG.USE_MOCK_DATA) {
         container.innerHTML = `<p>Error: No se ha especificado un código de curso.</p>`;
+        return;
+    }
+
+    if (CONFIG.USE_MOCK_DATA) {
+        // En modo mock, podemos usar el ID del curso si el code no funciona, o simplemente mostrar el primero
+        // Para hacerlo más robusto, intentemos buscar por id si 'code' es un número
+        const courseId = parseInt(courseCode);
+        let course = mockCourses.find(c => c.id === courseId);
+
+        // Fallback: si no encuentra por ID (o no hay ID), mostramos el primero para demo
+        if (!course) {
+            console.warn('Curso no encontrado en mock data, mostrando el primero por defecto.');
+            course = mockCourses[0];
+        }
+
+        // Adaptamos los datos del mock al formato esperado por renderCourse si es necesario
+        // El mock tiene una estructura ligeramente diferente, lo normalizamos aquí
+        const normalizedCourse = {
+            ...course,
+            name: course.title, // El mock usa title, la vista usa name
+            teacher: course.user,
+            stats: {
+                reviews_avg: course.rating_avg,
+                reviews: 120, // dato ficticio extra
+                students: course.students_count,
+                duration: 3600 * 5 // 5 horas default
+            },
+            description: `<p>Esta es una descripción simulada para el curso <strong>${course.title}</strong>.</p><p>Aprenderás todo lo necesario para dominar este tema con ejercicios prácticos y proyectos reales.</p>`,
+            sections: [
+                {
+                    title: 'Introducción',
+                    content: ['Bienvenida al curso', 'Configuración del entorno', 'Conceptos básicos']
+                },
+                {
+                    title: 'Desarrollo',
+                    content: ['Fundamentos teóricos', 'Práctica guiada', 'Proyecto intermedio']
+                },
+                {
+                    title: 'Conclusión',
+                    content: ['Proyecto final', 'Recursos adicionales', 'Despedida']
+                }
+            ]
+        };
+
+        renderCourse(normalizedCourse, container);
+        initializePageInteractions();
         return;
     }
 
